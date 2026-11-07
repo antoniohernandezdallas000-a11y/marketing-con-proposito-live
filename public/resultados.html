@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resultados en vivo · Marketing con propósito</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+:root{--purple:#6B2BFF;--yellow:#FFD60A;--orange:#FF7A1A;--ink:#15102E;--cream:#FFFDF9;--lav:#F3EEFF;--muted:#6E63A8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#0F0B22;color:var(--ink);font-family:'Inter',Arial,sans-serif;display:grid;place-items:center;padding:4vh 4vw}
+.win{width:min(1400px,100%);background:var(--cream);border-radius:28px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:10px;background:#EFE8FF;border-radius:14px;padding:14px 22px}
+.dot{width:16px;height:16px;border-radius:50%}
+.bar p{flex:1;text-align:center;margin:0 60px 0 0;font:700 clamp(14px,1.4vw,22px) 'Courier Prime',monospace;color:#3B3562}
+.body{padding:4vh 4vw 5vh;display:grid;gap:2.4vh}
+.eyebrow{margin:0;text-align:center;font:700 clamp(14px,1.5vw,24px) 'Courier Prime',monospace;letter-spacing:4px;color:var(--purple)}
+h1{margin:0 0 1vh;text-align:center;font-size:clamp(32px,4.6vw,76px);font-weight:900;letter-spacing:-2px}
+.row{position:relative;overflow:hidden;display:flex;align-items:center;gap:24px;background:var(--lav);border:2px solid var(--ink);border-radius:20px;padding:2vh 2.4vw}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(107,43,255,.22);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.row > *:not(.fill){position:relative}
+.k{font:700 clamp(18px,1.8vw,28px) 'Courier Prime',monospace;padding:4px 16px;border-radius:10px}
+.t{font-size:clamp(20px,2.4vw,40px);font-weight:700}
+.pct{margin-left:auto;font:700 clamp(28px,3vw,48px) 'Courier Prime',monospace;color:var(--purple)}
+.total{text-align:center;margin:1vh 0 0;font:700 clamp(16px,1.6vw,26px) 'Courier Prime',monospace;letter-spacing:2px;color:var(--muted)}
+.url{text-align:center;margin:0;font:700 clamp(14px,1.3vw,22px) 'Courier Prime',monospace;color:var(--ink)}
+.qr{position:fixed;right:2vw;bottom:2vh;width:clamp(110px,11vw,190px);background:var(--cream);border-radius:16px;padding:10px}
+.qr img{width:100%;display:block}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><p>encuesta / en_vivo</p></div>
+  <div class="body">
+    <p class="eyebrow">ENCUESTA EN VIVO</p>
+    <h1>¿Cuál es tu mayor reto hoy?</h1>
+    <div class="row" data-op="A"><div class="fill"></div><span class="k" style="background:#6B2BFF;color:#FFFDF9">A</span><span class="t">Saber qué publicar</span><span class="pct">0%</span></div>
+    <div class="row" data-op="B"><div class="fill"></div><span class="k" style="background:#FFD60A">B</span><span class="t">Llegar a las personas correctas</span><span class="pct">0%</span></div>
+    <div class="row" data-op="C"><div class="fill"></div><span class="k" style="background:#FF7A1A">C</span><span class="t">Medir resultados</span><span class="pct">0%</span></div>
+    <p class="total" id="total">VOTOS REGISTRADOS: 0</p>
+    <p class="url" id="url"></p>
+  </div>
+</div>
+<div class="qr"><img src="/qr.svg?destino=votar" alt="Código QR para votar"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+fetch("/api/info").then(r => r.json()).then(({url}) => { document.getElementById("url").textContent = "Vota en " + url.replace(/^https?:\/\//, "") + "/votar"; });
+function paint(r){
+  document.querySelectorAll(".row").forEach(row => {
+    const v = r.porcentaje[row.dataset.op] || 0;
+    row.querySelector(".fill").style.width = v + "%";
+    row.querySelector(".pct").textContent = v + "%";
+  });
+  document.getElementById("total").textContent = "VOTOS REGISTRADOS: " + r.total;
+}
+const s = io({ transports:["websocket","polling"] });
+s.on("resultados", paint);
+setInterval(() => { if (!s.connected) fetch("/api/resultados").then(r => r.json()).then(paint).catch(()=>{}); }, 4000);
+</script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6B2BFF">
+<title>Marketing con propósito · App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+:root{
+  --purple:#6B2BFF; --purple-dark:#4A14D9; --yellow:#FFD60A; --orange:#FF7A1A; --blue:#1F6BFF;
+  --ink:#15102E; --ink-2:#3B3562; --muted:#6E63A8; --cream:#FFFDF9; --lav:#EFE8FF; --lav-2:#F3EEFF; --grid:#E4DAFB; --paper:#F6F2FF;
+  --mono:'Courier Prime','Courier New',monospace; --sans:'Inter',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:var(--sans); color:var(--ink); min-height:100vh;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  padding:0 16px calc(32px + env(safe-area-inset-bottom));
+}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:560px;margin:0 auto}
+/* Barra superior */
+.top{position:sticky;top:0;z-index:5;margin:0 -16px 18px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;background:var(--cream);border-bottom:2px solid #D9CCF7}
+.top-in{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:2px}
+.tabs{display:flex;background:var(--lav);border-radius:12px;padding:4px;gap:4px}
+.tab{border:0;background:transparent;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:1px;padding:8px 12px;border-radius:9px;color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--purple);color:var(--cream)}
+/* Ventana tipo navegador */
+.win{background:var(--cream);border:2px solid var(--ink);border-radius:20px;box-shadow:0 14px 40px rgba(21,16,46,.12);overflow:hidden;margin-bottom:16px}
+.bar{display:flex;align-items:center;gap:8px;background:var(--lav);border-bottom:2px solid var(--ink);padding:10px 14px}
+.dot{width:12px;height:12px;border-radius:50%}
+.bar .path{flex:1;text-align:center;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink-2);margin-right:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.body{padding:22px 20px 24px}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin:0 0 10px}
+h1{font-size:clamp(30px,8vw,40px);font-weight:900;letter-spacing:-1.5px;line-height:1.02;margin:0 0 12px}
+h2{font-size:clamp(22px,6vw,28px);font-weight:900;letter-spacing:-.8px;line-height:1.12;margin:0 0 14px}
+h3{font-size:18px;font-weight:800;margin:0 0 8px}
+p{margin:0 0 12px;line-height:1.45}
+.muted{color:var(--muted)}
+/* Hero morado */
+.hero{position:relative;background:var(--purple);color:var(--cream);border-radius:24px;padding:28px 22px 26px;margin-bottom:16px;overflow:hidden}
+.hero h1 span{color:var(--yellow)}
+.hero .eyebrow{color:var(--yellow)}
+.hero .dots{position:absolute;right:-20px;top:-20px;width:180px;height:180px;background-image:radial-gradient(var(--purple-dark) 35%,transparent 36%);background-size:16px 16px;-webkit-mask-image:radial-gradient(circle at 100% 0,#000,transparent 70%);mask-image:radial-gradient(circle at 100% 0,#000,transparent 70%)}
+.pill{display:inline-block;font-family:var(--mono);font-weight:700;font-size:14px;background:var(--ink);color:var(--cream);padding:10px 16px;border-radius:10px}
+.sticker{position:absolute;filter:drop-shadow(0 4px 6px rgba(21,16,46,.3))}
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 22px;border-radius:14px;border:2px solid var(--ink);font-weight:800;font-size:17px}
+.btn-primary{background:var(--yellow);color:var(--ink)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-ghost{background:var(--cream);color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.tab:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.row .btn{flex:1 1 auto}
+/* Quiz */
+.progress{height:10px;background:var(--lav);border:2px solid var(--ink);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.progress span{display:block;height:100%;background:var(--purple);transition:width .4s ease}
+.count{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:14px}
+.options{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:56px;padding:12px 14px;background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;color:var(--ink);font-weight:600;font-size:16px;transition:transform .1s}
+.opt:active{transform:scale(.98)}
+.opt .k{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;background:var(--cream);border:2px solid var(--ink)}
+.opt.sel{background:var(--purple);color:var(--cream)}
+.opt.sel .k{background:var(--yellow);color:var(--ink)}
+/* Resultado */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:1px;padding:6px 10px;border-radius:8px;background:var(--yellow);color:var(--ink)}
+ul.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ul.list li{display:flex;gap:12px;align-items:flex-start;line-height:1.4}
+ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15px;padding-top:1px}
+/* Votación */
+.vote{position:relative;overflow:hidden}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(107,43,255,.18);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.vote > *:not(.fill){position:relative}
+.vote .pct{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:18px;color:var(--purple)}
+.vote.sel .pct{color:var(--yellow)}
+.vote.sel .fill{background:rgba(255,214,10,.25)}
+.total{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;color:var(--muted);text-align:center;margin-top:14px}
+.status{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+.thanks{background:var(--ink);color:var(--cream);border-radius:14px;padding:14px 16px;margin-top:14px;font-weight:700}
+.thanks span{color:var(--yellow)}
+[hidden]{display:none!important}
+.foot{text-align:center;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Imprimir / Guardar como PDF solo el plan */
+@media print{
+  body{background:#fff;padding:0}
+  .top,.hero,#vistaVotar,.no-print,.foot{display:none!important}
+  .win{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">◀ MKT_CON_PROPÓSITO</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tabDiag" aria-selected="true">DIAGNÓSTICO</button>
+      <button class="tab" role="tab" id="tabVotar" aria-selected="false">VOTAR</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= DIAGNÓSTICO ================= -->
+<div id="vistaDiag">
+
+  <section id="intro">
+    <div class="hero">
+      <div class="dots" aria-hidden="true"></div>
+      <svg class="sticker" style="right:14px;bottom:14px;width:64px;height:64px" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0 C53 38 62 47 100 50 C62 53 53 62 50 100 C47 62 38 53 0 50 C38 47 47 38 50 0 Z" fill="#FFD60A"/></svg>
+      <p class="eyebrow">ADOR-ARTE 2026 · TU PROPÓSITO</p>
+      <h1>Descubre para qué quieres hacer <span>marketing</span></h1>
+      <p style="opacity:.9">Responde 7 preguntas con sinceridad. Al final recibirás tu plan personal: qué hacer, para quién y cómo empezar.</p>
+      <span class="pill">⏱ 2 minutos</span>
+    </div>
+    <div class="row" style="margin-top:0"><button class="btn btn-primary" id="start">Empezar diagnóstico →</button></div>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="win">
+      <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path" id="qpath">diagnóstico / pregunta_01</span></div>
+      <div class="body">
+        <div class="progress" aria-hidden="true"><span id="pbar" style="width:0%"></span></div>
+        <p class="count" id="count"></p>
+        <h2 id="question"></h2>
+        <div class="options" id="options"></div>
+        <div class="row"><button class="btn btn-ghost" id="back">← Anterior</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="win">
+      <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / perfil</span></div>
+      <div class="body">
+        <p class="eyebrow">TU PLAN PERSONAL</p>
+        <h1 id="profileName"></h1>
+        <p id="profileIntro"></p>
+        <div class="tags" id="tags"></div>
+      </div>
+    </div>
+    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / para_quién</span></div>
+      <div class="body"><h3>Tu propósito</h3><p id="purposeText"></p><h3>Cómo lo vas a vivir</h3><p id="modeText" style="margin:0"></p></div></div>
+    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / qué_hacer</span></div>
+      <div class="body"><h3>Qué hacer ahora</h3><ul class="list" id="steps"></ul></div></div>
+    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / cómo_empezar</span></div>
+      <div class="body"><h3>Tu primera semana</h3><ul class="list" id="week"></ul></div></div>
+    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / estudiar</span></div>
+      <div class="body"><h3>Qué estudiar</h3><ul class="list" id="study"></ul><h3 style="margin-top:16px">Herramientas</h3><ul class="list" id="tools"></ul></div></div>
+    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / tu_freno</span></div>
+      <div class="body"><h3>Para tu freno principal</h3><p id="barrierText" style="margin:0"></p></div></div>
+
+    <div class="row no-print">
+      <button class="btn btn-primary" id="download">⬇ Descargar mi plan</button>
+      <button class="btn btn-dark" id="print">Guardar como PDF</button>
+    </div>
+    <div class="row no-print">
+      <button class="btn btn-ghost" id="goVote">Ir a la votación en vivo</button>
+      <button class="btn btn-ghost" id="restart">Repetir</button>
+    </div>
+  </section>
+</div>
+
+<!-- ================= VOTACIÓN ================= -->
+<div id="vistaVotar" hidden>
+  <div class="hero">
+    <div class="dots" aria-hidden="true"></div>
+    <p class="eyebrow">ENCUESTA EN VIVO</p>
+    <h1>¿Cuál es tu mayor reto hoy?</h1>
+    <p style="opacity:.9;margin:0">Toca una opción. Tu voto aparece al instante en la pantalla del taller. Puedes cambiarlo cuando quieras.</p>
+  </div>
+  <div class="win">
+    <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">encuesta / en_vivo</span></div>
+    <div class="body">
+      <div class="options" id="voteOptions">
+        <button class="opt vote" data-op="A"><span class="fill"></span><span class="k">A</span><span>Saber qué publicar</span><span class="pct">0%</span></button>
+        <button class="opt vote" data-op="B"><span class="fill"></span><span class="k">B</span><span>Llegar a las personas correctas</span><span class="pct">0%</span></button>
+        <button class="opt vote" data-op="C"><span class="fill"></span><span class="k">C</span><span>Medir resultados</span><span class="pct">0%</span></button>
+      </div>
+      <p class="total" id="total">VOTOS REGISTRADOS: 0</p>
+      <div class="thanks" id="thanks" hidden>¡Gracias! Tu voto: <span id="myVote"></span></div>
+      <p class="status" id="status">Conectando…</p>
+    </div>
+  </div>
+</div>
+
+<p class="foot">MARKETING CON PROPÓSITO · SUMAS PRO</p>
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+/* ---------- Identidad del teléfono (un voto por dispositivo) ---------- */
+function getDeviceId(){
+  let id = null;
+  try { id = localStorage.getItem("mcp_device"); } catch(e){}
+  if (!id) {
+    id = (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2))).replace(/[^a-zA-Z0-9_-]/g,"");
+    try { localStorage.setItem("mcp_device", id); } catch(e){}
+  }
+  return id;
+}
+const DEVICE = getDeviceId();
+const $ = (id) => document.getElementById(id);
+
+/* ---------- Pestañas ---------- */
+function setTab(t){
+  const votar = t === "votar";
+  $("vistaVotar").hidden = !votar;
+  $("vistaDiag").hidden = votar;
+  $("tabVotar").setAttribute("aria-selected", votar);
+  $("tabDiag").setAttribute("aria-selected", !votar);
+  history.replaceState(null, "", votar ? "#votar" : "#");
+  window.scrollTo(0,0);
+}
+$("tabDiag").onclick = () => setTab("diag");
+$("tabVotar").onclick = () => setTab("votar");
+if (location.hash === "#votar") setTab("votar");
+
+/* ---------- Diagnóstico: 7 preguntas ---------- */
+const QUESTIONS = [
+  { q:"¿Qué actividad te da más energía?", opts:[
+    { t:"Crear: diseñar, grabar o escribir", w:{creativo:3}, gusto:"creativo" },
+    { t:"Hablar y enseñar a otros", w:{comunicador:3}, gusto:"comunicador" },
+    { t:"Analizar números y planear", w:{estratega:3}, gusto:"estratega" },
+    { t:"Ayudar a personas una por una", w:{servidor:3}, gusto:"servidor" } ]},
+  { q:"¿Para quién te gustaría hacer marketing?", opts:[
+    { t:"Para mi propio negocio o marca", para:"yo" },
+    { t:"Para otras personas, causas o un ministerio", para:"otros" },
+    { t:"Para mí y para otros por igual", para:"mixto" } ]},
+  { q:"¿Cómo quieres vivirlo?", opts:[
+    { t:"Como hobby, sin presión", modo:"hobby" },
+    { t:"Como profesión", modo:"profesional" },
+    { t:"Como emprendimiento que genere ingresos", modo:"emprendedor" } ]},
+  { q:"¿Cuánto tiempo puedes dedicarle por semana?", opts:[
+    { t:"Menos de 2 horas", tiempo:"poco" },
+    { t:"Entre 2 y 6 horas", tiempo:"medio" },
+    { t:"Más de 6 horas", tiempo:"alto" } ]},
+  { q:"¿Qué se te da mejor?", opts:[
+    { t:"Escribir", w:{comunicador:2} },
+    { t:"Hablar frente a cámara o en público", w:{comunicador:2} },
+    { t:"Diseñar y cuidar lo visual", w:{creativo:2} },
+    { t:"Organizar y medir resultados", w:{estratega:2} } ]},
+  { q:"¿Qué es lo que más te frena hoy?", opts:[
+    { t:"No sé por dónde empezar", freno:"empezar" },
+    { t:"Me da miedo exponerme", freno:"miedo" },
+    { t:"Me falta tiempo", freno:"tiempo" },
+    { t:"Me faltan herramientas o recursos", freno:"recursos" } ]},
+  { q:"¿Qué quieres lograr en los próximos 6 meses?", opts:[
+    { t:"Aprender lo básico con seguridad", w:{} },
+    { t:"Construir una comunidad o audiencia", w:{comunicador:1, servidor:1} },
+    { t:"Generar ingresos", w:{estratega:1, creativo:1} },
+    { t:"Liderar un equipo de comunicación", w:{estratega:2} } ]},
+];
+
+const PROFILES = {
+  creativo:{ name:"Creador visual",
+    intro:"Tu fuerza está en crear piezas que se ven bien y que la gente recuerda. Tu reto es convertir la creatividad en un mensaje con objetivo.",
+    steps:["Elige una sola promesa que tu marca o proyecto cumpla.","Crea tres piezas visuales a partir de esa promesa, con un mismo estilo.","Publica una vez por semana y anota qué piezas generan respuesta."],
+    study:["Dirección de arte y paleta de colores","Storytelling visual","Plan de una página para ordenar tu contenido"],
+    tools:["Canva","Google Trends","Bloc de notas para ideas"] },
+  comunicador:{ name:"Comunicador con mensaje",
+    intro:"Tu fuerza está en explicar bien las cosas y conectar con la gente a través de la palabra. Tu reto es llegar a las personas correctas, no solo a cualquiera.",
+    steps:["Define a una persona concreta a la que le hablas.","Escribe tres mensajes que resuelvan una duda real de esa persona.","Responde comentarios y preguntas durante las primeras cuatro semanas."],
+    study:["Redacción persuasiva con honestidad","Investigación de audiencia","Escucha activa en redes"],
+    tools:["Google Trends","Notas de voz para guiones","Calendario simple"] },
+  estratega:{ name:"Estratega",
+    intro:"Tu fuerza está en ordenar, planear y medir. Tu reto es no quedarte solo en los planes y empezar a publicar con constancia.",
+    steps:["Escribe un objetivo medible para los próximos 90 días.","Arma un calendario de publicaciones para cuatro semanas.","Revisa cada semana tres números: alcance, interacción y conversiones."],
+    study:["Métricas que sí importan","Presupuesto y planificación","Análisis de competencia"],
+    tools:["Hoja de cálculo para métricas","Trello o Notion para el calendario","Analítica nativa de tus redes"] },
+  servidor:{ name:"Servidor de personas",
+    intro:"Tu fuerza está en acompañar y cuidar a las personas. Tu reto es que ese cuidado llegue también a quienes todavía no te conocen.",
+    steps:["Anota las preguntas que más te hacen las personas que ayudas.","Convierte cada pregunta en una publicación útil y clara.","Invita a una persona a la vez a dar el siguiente paso con tu ayuda."],
+    study:["Marketing de confianza y referidos","Comunidad y seguimiento","Honestidad y transparencia en el mensaje"],
+    tools:["Grupo de mensajería para comunidad","Formulario para preguntas","Lista de contactos ordenada"] },
+};
+const PURPOSE = {
+  yo:"Tu marketing servirá para crecer tu propio proyecto o marca. Enfócate en que tu oferta sea clara y que la gente entienda en qué le ayudas.",
+  otros:"Tu marketing servirá para llevar un mensaje a otras personas. Enfócate en la necesidad de quienes escuchan y en que el mensaje sea verdadero y útil.",
+  mixto:"Tu marketing servirá para tu proyecto y también para otras personas. Separa tu tiempo: una parte para crecer y otra para servir.",
+};
+const MODE = {
+  hobby:"Como hobby, disfruta el proceso. Publica a tu ritmo, sin metas de ingresos, y deja que tu contenido crezca de forma natural.",
+  profesional:"Como profesión, trátalo como un trabajo: horario fijo, metas mensuales y revisión de resultados.",
+  emprendedor:"Como emprendimiento, combina creatividad con números. Define una oferta, un precio y una forma de medir ventas desde el principio.",
+};
+const FRENO = {
+  empezar:{ t:"Si no sabes por dónde empezar", tip:"Empieza con el plan de una página: objetivo, persona, mensaje, canal y medición. Llénalo en 30 minutos y no lo cambies durante un mes." },
+  miedo:{ t:"Si te da miedo exponerte", tip:"Empieza compartiendo con diez personas de confianza. Recibir retroalimentación pequeña te dará seguridad para crecer." },
+  tiempo:{ t:"Si te falta tiempo", tip:"Trabaja en bloques de 45 minutos, dos veces por semana. Un calendario corto vale más que un plan perfecto que nunca se cumple." },
+  recursos:{ t:"Si te faltan herramientas", tip:"Puedes empezar con tu celular y herramientas gratuitas. Lo que importa es el mensaje y la constancia, no el equipo." },
+};
+const TAGS = { yo:"PARA MI MARCA", otros:"PARA OTRAS PERSONAS", mixto:"PARA MÍ Y PARA OTROS", hobby:"HOBBY", profesional:"PROFESIONAL", emprendedor:"EMPRENDEDOR" };
+
+let answers = [], current = 0, plan = null;
+
+function show(id){ ["intro","quiz","result"].forEach(s => $(s).hidden = s !== id); window.scrollTo(0,0); }
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  const n = String(current+1).padStart(2,"0");
+  $("pbar").style.width = (current / QUESTIONS.length * 100) + "%";
+  $("count").textContent = "PREGUNTA " + n + " / 07";
+  $("qpath").textContent = "diagnóstico / pregunta_" + n;
+  $("question").textContent = q.q;
+  const box = $("options"); box.innerHTML = "";
+  q.opts.forEach((o,i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt" + (answers[current] === i ? " sel" : "");
+    b.innerHTML = '<span class="k">' + "ABCD"[i] + '</span><span></span>';
+    b.lastChild.textContent = o.t;
+    b.onclick = () => {
+      answers[current] = i;
+      b.classList.add("sel");
+      setTimeout(() => { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } else renderResult(); }, 160);
+    };
+    box.appendChild(b);
+  });
+  $("back").disabled = current === 0;
+  $("back").style.opacity = current === 0 ? .4 : 1;
+}
+
+function score(){
+  const s = { creativo:0, comunicador:0, estratega:0, servidor:0 };
+  const info = { para:"mixto", modo:"hobby", tiempo:"medio", freno:"empezar", gusto:null };
+  QUESTIONS.forEach((q,qi) => {
+    const o = q.opts[answers[qi]]; if (!o) return;
+    Object.entries(o.w || {}).forEach(([k,v]) => s[k] += v);
+    ["para","modo","tiempo","freno","gusto"].forEach(k => { if (o[k]) info[k] = o[k]; });
+  });
+  if (info.gusto) s[info.gusto] += 0.5;
+  return { key: Object.entries(s).sort((a,b) => b[1]-a[1])[0][0], info };
+}
+
+function weekPlan(t){
+  if (t === "poco") return ["Lee una guía corta sobre el plan de una página (30 min).","Escribe tu plan de una página.","Publica una sola pieza o mensaje."];
+  if (t === "medio") return ["Escribe tu plan de una página y tu lista de 10 preguntas de tu público.","Crea y publica dos piezas (una por bloque de 45 min).","Revisa qué respondió la gente y anótalo."];
+  return ["Define objetivo, persona y canal principal.","Arma un calendario de 4 publicaciones y produce 2 de ellas.","Publica, responde comentarios y revisa tres métricas el viernes."];
+}
+
+function fill(id, items){
+  const ul = $(id); ul.innerHTML = "";
+  items.forEach((t,i) => { const li = document.createElement("li"); const b = document.createElement("b"); b.textContent = String(i+1).padStart(2,"0"); const s = document.createElement("span"); s.textContent = t; li.append(b,s); ul.appendChild(li); });
+}
+
+function renderResult(){
+  const { key, info } = score(); const p = PROFILES[key];
+  $("profileName").textContent = p.name;
+  $("profileIntro").textContent = p.intro;
+  $("tags").innerHTML = "";
+  [info.para, info.modo].forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = TAGS[t]; $("tags").appendChild(s); });
+  $("purposeText").textContent = PURPOSE[info.para];
+  $("modeText").textContent = MODE[info.modo];
+  const week = weekPlan(info.tiempo);
+  fill("steps", p.steps); fill("week", week); fill("study", p.study); fill("tools", p.tools);
+  $("barrierText").textContent = FRENO[info.freno].t + ". " + FRENO[info.freno].tip;
+  plan = { p, info, week };
+  show("result");
+  enviar("diagnostico", "/api/diagnostico", { deviceId: DEVICE, perfil: key });
+}
+
+function planTexto(){
+  const { p, info, week } = plan;
+  const L = (a) => a.map((s,i) => "  " + (i+1) + ". " + s).join("\n");
+  return [
+    "MARKETING CON PROPÓSITO · MI PLAN PERSONAL",
+    "==========================================","",
+    "Perfil: " + p.name, "Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
+    p.intro, "",
+    "TU PROPÓSITO", "  " + PURPOSE[info.para], "",
+    "CÓMO LO VAS A VIVIR", "  " + MODE[info.modo], "",
+    "QUÉ HACER AHORA", L(p.steps), "",
+    "TU PRIMERA SEMANA", L(week), "",
+    "QUÉ ESTUDIAR", L(p.study), "",
+    "HERRAMIENTAS", L(p.tools), "",
+    "PARA TU FRENO PRINCIPAL", "  " + FRENO[info.freno].t + ". " + FRENO[info.freno].tip, "",
+    "— Taller Marketing con propósito · Sumas Pro",
+  ].join("\n");
+}
+
+$("start").onclick = () => { answers = []; current = 0; show("quiz"); renderQuestion(); };
+$("back").onclick = () => { if (current > 0) { current--; renderQuestion(); } };
+$("restart").onclick = () => { answers = []; current = 0; show("intro"); };
+$("goVote").onclick = () => setTab("votar");
+$("print").onclick = () => window.print();
+$("download").onclick = () => {
+  const blob = new Blob([planTexto()], { type:"text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "mi-plan-marketing-con-proposito.txt";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+
+/* ---------- Tiempo real ---------- */
+let socket = null;
+try { socket = io({ transports:["websocket","polling"] }); } catch(e){}
+
+function enviar(evento, url, data){
+  if (socket && socket.connected) { socket.emit(evento, data); return Promise.resolve(); }
+  return fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(data) })
+    .then(r => r.json()).then(r => { if (r.conteo) pintar(r); }).catch(() => {});
+}
+
+let miVoto = null;
+try { miVoto = localStorage.getItem("mcp_voto"); } catch(e){}
+const NOMBRES = { A:"Saber qué publicar", B:"Llegar a las personas correctas", C:"Medir resultados" };
+
+function marcar(){
+  document.querySelectorAll(".vote").forEach(b => b.classList.toggle("sel", b.dataset.op === miVoto));
+  $("thanks").hidden = !miVoto;
+  if (miVoto) $("myVote").textContent = NOMBRES[miVoto];
+}
+
+function pintar(r){
+  document.querySelectorAll(".vote").forEach(b => {
+    const k = b.dataset.op, pct = r.porcentaje[k] || 0;
+    b.querySelector(".fill").style.width = pct + "%";
+    b.querySelector(".pct").textContent = pct + "%";
+  });
+  $("total").textContent = "VOTOS REGISTRADOS: " + r.total;
+}
+
+document.querySelectorAll(".vote").forEach(b => b.onclick = () => {
+  miVoto = b.dataset.op;
+  try { localStorage.setItem("mcp_voto", miVoto); } catch(e){}
+  marcar();
+  if (navigator.vibrate) navigator.vibrate(30);
+  enviar("votar", "/api/votar", { deviceId: DEVICE, opcion: miVoto });
+});
+marcar();
+
+if (socket) {
+  socket.on("connect", () => { $("status").textContent = "● En vivo"; });
+  socket.on("disconnect", () => { $("status").textContent = "Reconectando…"; });
+  socket.on("resultados", pintar);
+} else {
+  $("status").textContent = "Modo sin conexión en vivo";
+}
+// Respaldo ligero: refresca cada 5 s si el socket no está conectado
+setInterval(() => {
+  if (socket && socket.connected) return;
+  fetch("/api/resultados").then(r => r.json()).then(pintar).catch(() => {});
+}, 5000);
+</script>
+</body>
+</html>

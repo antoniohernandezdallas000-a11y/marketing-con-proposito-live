@@ -38,16 +38,22 @@ try {
   leads = [];
 }
 
+// Guardado local con 'debounce' para evitar bloqueos del disco cuando hay alta concurrencia
+let saveLeadsTimer = null;
 function guardarLeadLocal(lead) {
   leads.push(lead);
-  try {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
-  } catch (e) {
-    console.error("Error guardando lead local:", e.message);
-  }
+  clearTimeout(saveLeadsTimer);
+  saveLeadsTimer = setTimeout(() => {
+    try {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+      fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+    } catch (e) {
+      console.error("Error guardando lead local:", e.message);
+    }
+  }, 250);
 }
 
+// Envío a Supabase
 async function enviarASupabase(lead) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
@@ -72,13 +78,53 @@ async function enviarASupabase(lead) {
         created_at: lead.fecha || new Date().toISOString()
       })
     });
-    if (res.ok) console.log(`✓ Lead de ${lead.nombre} guardado en Supabase`);
-    else console.warn("Aviso Supabase al guardar lead:", res.status, await res.text());
-    return res.ok;
+    if (res.ok) {
+      console.log(`✓ Lead de ${lead.nombre} sincronizado en Supabase`);
+      return true;
+    }
+    const errText = await res.text().catch(() => "");
+    console.warn(`Aviso Supabase (${res.status}): ${errText}`);
+    return false;
   } catch (err) {
-    console.warn("No se pudo enviar lead a Supabase:", err.message);
+    console.warn(`Error de red con Supabase: ${err.message}`);
     return false;
   }
+}
+
+// Cola en memoria con reintentos automáticos para soportar ráfagas concurrentes sin perder leads
+const supabaseQueue = [];
+let processingQueue = false;
+
+function encolarParaSupabase(lead) {
+  supabaseQueue.push({ lead, retries: 0 });
+  procesarColaSupabase();
+}
+
+async function procesarColaSupabase() {
+  if (processingQueue || supabaseQueue.length === 0) return;
+  processingQueue = true;
+
+  while (supabaseQueue.length > 0) {
+    const item = supabaseQueue[0];
+    const ok = await enviarASupabase(item.lead);
+    if (ok) {
+      supabaseQueue.shift(); // Enviado exitosamente
+    } else {
+      item.retries++;
+      if (item.retries >= 5) {
+        console.error(`Descartado de cola tras 5 reintentos fallidos: ${item.lead.nombre}`);
+        supabaseQueue.shift();
+      } else {
+        const delay = Math.min(item.retries * 800, 4000);
+        console.log(`Reintentando envío a Supabase en ${delay}ms (intento ${item.retries}/5)...`);
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    }
+    // Pausa de 35ms entre peticiones para no saturar conexiones HTTP concurrentes
+    await new Promise((r) => setTimeout(r, 35));
+  }
+
+  processingQueue = false;
 }
 
 // Opciones de la encuesta (deben coincidir con la app y la diapositiva 24)
@@ -142,6 +188,43 @@ const app = express();
 app.use(express.json({ limit: "10kb" }));
 app.set("trust proxy", true);
 
+// Cabeceras de seguridad HTTP
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+});
+
+// Limitador de tasa (Anti-spam / Anti-DDoS) en memoria por IP
+const ipLimits = new Map();
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of ipLimits.entries()) {
+    if (now > rec.reset) ipLimits.delete(ip);
+  }
+}, 60000);
+
+function rateLimit({ max, windowMs, message }) {
+  return (req, res, next) => {
+    const ip = req.ip || req.connection?.remoteAddress || "anon";
+    const now = Date.now();
+    const record = ipLimits.get(ip) || { count: 0, reset: now + windowMs };
+    if (now > record.reset) {
+      record.count = 1;
+      record.reset = now + windowMs;
+    } else {
+      record.count++;
+    }
+    ipLimits.set(ip, record);
+    if (record.count > max) {
+      return res.status(429).json({ ok: false, error: message || "Demasiadas peticiones. Intenta en un momento." });
+    }
+    next();
+  };
+}
+
 const pub = path.join(__dirname, "public");
 app.get("/", (req, res) => res.sendFile(path.join(pub, "app.html")));
 app.get("/votar", (req, res) => res.redirect("/#votar"));
@@ -198,14 +281,14 @@ app.get("/api/info", (req, res) => res.json({ url: urlPublica(req) }));
 app.get("/api/resultados", (req, res) => res.json(resultados()));
 
 // Respaldo por HTTP (por si un teléfono no logra abrir el WebSocket)
-app.post("/api/votar", (req, res) => {
+app.post("/api/votar", rateLimit({ max: 40, windowMs: 60000 }), (req, res) => {
   const { deviceId, opcion } = req.body || {};
   if (!registrarVoto(deviceId, opcion)) return res.status(400).json({ ok: false });
   io.emit("resultados", resultados());
   res.json({ ok: true, ...resultados() });
 });
 
-app.post("/api/diagnostico", (req, res) => {
+app.post("/api/diagnostico", rateLimit({ max: 30, windowMs: 60000 }), (req, res) => {
   const { deviceId, perfil } = req.body || {};
   if (!registrarDiagnostico(deviceId, perfil)) return res.status(400).json({ ok: false });
   io.emit("resultados", resultados());
@@ -213,19 +296,24 @@ app.post("/api/diagnostico", (req, res) => {
 });
 
 // Captura de datos del asistente (Lead para desbloquear el diagnóstico)
-app.post("/api/registro-lead", async (req, res) => {
+app.post("/api/registro-lead", rateLimit({ max: 20, windowMs: 60000, message: "Demasiados registros desde este dispositivo. Espera un minuto." }), async (req, res) => {
   const { nombre, telefono, email, dedicacion, tema_interes, perfil, respuestas, deviceId } = req.body || {};
   if (!nombre || !telefono || !email) {
     return res.status(400).json({ ok: false, error: "Nombre, teléfono y correo son requeridos" });
   }
 
+  // Sanitización de entradas
+  const cleanNombre = String(nombre).trim().replace(/[<>]/g, "").slice(0, 100);
+  const cleanTelefono = String(telefono).trim().replace(/[^\d+()\s-]/g, "").slice(0, 40);
+  const cleanEmail = String(email).trim().toLowerCase().slice(0, 120);
+
   const lead = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-    nombre: String(nombre).trim().slice(0, 100),
-    telefono: String(telefono).trim().slice(0, 40),
-    email: String(email).trim().toLowerCase().slice(0, 120),
-    dedicacion: String(dedicacion || "").trim().slice(0, 120),
-    tema_interes: String(tema_interes || "").trim().slice(0, 120),
+    nombre: cleanNombre,
+    telefono: cleanTelefono,
+    email: cleanEmail,
+    dedicacion: String(dedicacion || "").trim().replace(/[<>]/g, "").slice(0, 120),
+    tema_interes: String(tema_interes || "").trim().replace(/[<>]/g, "").slice(0, 120),
     perfil: String(perfil || "").trim().slice(0, 50),
     respuestas: respuestas || null,
     deviceId: String(deviceId || "").trim().slice(0, 64),
@@ -238,8 +326,8 @@ app.post("/api/registro-lead", async (req, res) => {
     io.emit("resultados", resultados());
   }
 
-  // Intentar sincronizar con Supabase en segundo plano si está configurado
-  enviarASupabase(lead).catch(() => {});
+  // Encolar para envío a Supabase con reintentos automáticos
+  encolarParaSupabase(lead);
 
   res.json({ ok: true, leadId: lead.id });
 });
@@ -250,18 +338,25 @@ app.get("/api/leads", (req, res) => {
   res.json({ total: leads.length, leads });
 });
 
+// Sanitización para prevenir CSV Injection (inyección de fórmulas en Excel)
+function sanitizeCsvCell(val) {
+  let str = String(val || "").trim();
+  if (/^[=+\-@\t\r]/.test(str)) str = "'" + str;
+  return `"${str.replace(/"/g, '""')}"`;
+}
+
 // Descargar lista de leads en formato CSV para Excel: GET /api/leads/export.csv?clave=...
 app.get("/api/leads/export.csv", (req, res) => {
   if (req.query.clave !== ADMIN_KEY) return res.status(403).send("No autorizado. Pasa ?clave=TU_ADMIN_KEY");
   const headers = ["Fecha", "Nombre", "Teléfono", "Email", "¿A qué se dedica?", "Tema de interés", "Perfil de Marketing"];
   const rows = leads.map((l) => [
-    `"${l.fecha || ""}"`,
-    `"${(l.nombre || "").replace(/"/g, '""')}"`,
-    `"${(l.telefono || "").replace(/"/g, '""')}"`,
-    `"${(l.email || "").replace(/"/g, '""')}"`,
-    `"${(l.dedicacion || "").replace(/"/g, '""')}"`,
-    `"${(l.tema_interes || "").replace(/"/g, '""')}"`,
-    `"${(l.perfil || "").replace(/"/g, '""')}"`
+    sanitizeCsvCell(l.fecha),
+    sanitizeCsvCell(l.nombre),
+    sanitizeCsvCell(l.telefono),
+    sanitizeCsvCell(l.email),
+    sanitizeCsvCell(l.dedicacion),
+    sanitizeCsvCell(l.tema_interes),
+    sanitizeCsvCell(l.perfil)
   ].join(","));
   const csv = [headers.join(","), ...rows].join("\r\n");
   res.setHeader("Content-Type", "text/csv; charset=utf-8");

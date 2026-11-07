@@ -99,11 +99,35 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
 [hidden]{display:none!important}
 .foot{text-align:center;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:22px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-/* Imprimir / Guardar como PDF solo el plan */
+/* Componentes de la Guía y Planificación de Contenido */
+.box-step{background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.box-step h4{margin:0 0 6px;font-size:17px;font-weight:800;color:var(--purple)}
+.box-step p{margin:0;font-size:15px;line-height:1.45}
+.verse-badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;background:var(--ink);color:var(--yellow);padding:3px 8px;border-radius:6px;margin-bottom:8px}
+.table-principles{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.table-principles th,.table-principles td{border:1.5px solid var(--ink);padding:10px 12px;text-align:left}
+.table-principles th{background:var(--lav);color:var(--purple);font-family:var(--mono);font-weight:700}
+.table-principles td{background:var(--cream)}
+.worksheet-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+.worksheet-item{border:2px dashed var(--ink);border-radius:12px;padding:12px 14px;background:#FFFDF9}
+.worksheet-item b{display:block;font-size:12px;font-family:var(--mono);color:var(--purple);letter-spacing:1px;margin-bottom:6px}
+.worksheet-item span{display:block;font-size:15px;color:var(--ink);line-height:1.4}
+.print-only{display:none}
+
+/* Imprimir / Guardar como PDF */
 @media print{
-  body{background:#fff;padding:0}
-  .top,.hero,#vistaVotar,.no-print,.foot{display:none!important}
-  .win{box-shadow:none;break-inside:avoid}
+  body{background:#fff;padding:14px 24px;color:#15102E}
+  .top,.hero,#vistaVotar,.no-print,.foot,#intro,#quiz,#gate{display:none!important}
+  .print-only{display:block!important}
+  .win{box-shadow:none;border:1.5px solid #15102E;border-radius:14px;break-inside:avoid;margin-bottom:16px}
+  .bar{background:#EFE8FF;border-bottom:1.5px solid #15102E;padding:8px 14px}
+  .body{padding:14px 18px}
+  .page-break{page-break-before:always;break-before:page}
+  h1{font-size:24px!important}
+  h2{font-size:20px!important}
+  h3{font-size:16px!important}
+  p,li{font-size:13px!important;line-height:1.4!important}
+  .box-step p,.worksheet-item span,.table-principles td{font-size:12px!important}
 }
 </style>
 </head>
@@ -203,6 +227,13 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
   </section>
 
   <section id="result" hidden>
+    <!-- Encabezado para Imprimir / PDF -->
+    <div class="print-only" style="margin-bottom:16px;border-bottom:2px solid #15102E;padding-bottom:12px">
+      <p style="font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--purple);margin:0 0 4px">MARKETING CON PROPÓSITO · DOSSIER PERSONALIZADO · MANUEL QUIJADA (SUMAS PRO)</p>
+      <h1 style="margin:0 0 6px;font-size:24px" id="printLeadTitle">Plan Personal y Guía de Contenido</h1>
+      <p style="margin:0;font-size:12px;color:var(--muted)" id="printLeadSubtitle"></p>
+    </div>
+
     <div class="win">
       <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / perfil</span></div>
       <div class="body">
@@ -222,6 +253,149 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
       <div class="body"><h3>Qué estudiar</h3><ul class="list" id="study"></ul><h3 style="margin-top:16px">Herramientas</h3><ul class="list" id="tools"></ul></div></div>
     <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / tu_freno</span></div>
       <div class="body"><h3>Para tu freno principal</h3><p id="barrierText" style="margin:0"></p></div></div>
+
+    <!-- SECCIÓN: Paso a Paso para Planificación de Contenido (Método de los Slides) -->
+    <div class="win page-break">
+      <div class="bar">
+        <span class="dot" style="background:#6B2BFF"></span>
+        <span class="dot" style="background:#FFD60A"></span>
+        <span class="dot" style="background:#FF7A1A"></span>
+        <span class="path">guía_slides / planificación_contenido_paso_a_paso</span>
+      </div>
+      <div class="body">
+        <p class="eyebrow">METODOLOGÍA DE LOS SLIDES · SUMAS PRO</p>
+        <h2 style="margin-bottom:6px">Paso a Paso para Planificar tu Contenido</h2>
+        <p class="muted" style="margin-bottom:16px">Estructura tus publicaciones para servir a las personas correctas con constancia y sin abrumarte.</p>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 01 · PROVERBIOS 27:23</span>
+          <h4>Investiga antes de publicar</h4>
+          <p>“Sé solícito en conocer el estado de tus ovejas”. Pregunta con encuestas simples o habla con 5 clientes reales; escucha en comentarios y mensajes anotando sus palabras exactas; observa qué contenidos generan conversación y resume en 1 página las 3 necesidades más repetidas.</p>
+        </div>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 02 · RESPONDE A PREGUNTAS REALES</span>
+          <h4>Primero la respuesta, después la oferta</h4>
+          <p>Recoge las dudas de tus seguidores sin editarlas y agrúpalas en 3 a 5 temas. Cada tema es una publicación que responde de forma directa y clara. Si las personas siguen preguntando lo mismo tras publicar, la respuesta no fue lo bastante simple y debes pulirla.</p>
+        </div>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 03 · 1 CORINTIOS 9:22</span>
+          <h4>Habla como tu público, no como tu ego</h4>
+          <p>“A todos me he hecho de todo”. El mensaje central de tu propósito nunca cambia, pero el lenguaje y formato sí. Elimina tecnicismos, modas vacías y autoelogios. El ego busca sonar inteligente; el público necesita entender.</p>
+        </div>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 04 · MATEO 5:16</span>
+          <h4>Coherencia: tu marca se ve en lo que cumples</h4>
+          <p>“Así brille vuestra luz”. Tu marca no es solo lo que diseñas o publicas, es cómo atiendes y cumples cada promesa. Cumplir lo prometido construye confianza y fidelidad 10 veces más rápido que cualquier presupuesto en pauta publicitaria.</p>
+        </div>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 05 · PROVERBIOS 22:1</span>
+          <h4>Mide la confianza y no solo los números</h4>
+          <p>“De más estima es el buen nombre que las muchas riquezas”. Un seguidor ganado con verdad y servicio vale más que mil compras por impulso. Mide mensajes agradecidos, personas que vuelven y recomendaciones boca a boca, no solo likes de vanidad.</p>
+        </div>
+
+        <div class="box-step">
+          <span class="verse-badge">PASO 06 · LUCAS 14:28</span>
+          <h4>Planifica, administra y descansa</h4>
+          <p>“Calcula primero los gastos”. Define un objetivo medible a 90 días, un presupuesto honesto en dinero y horas sin endeudarte, bloques fijos en tu calendario para producir, y programa descansos: administrar bien también es saber parar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: Plantilla de Plan de Contenido en 1 Página -->
+    <div class="win">
+      <div class="bar">
+        <span class="dot" style="background:#6B2BFF"></span>
+        <span class="dot" style="background:#FFD60A"></span>
+        <span class="dot" style="background:#FF7A1A"></span>
+        <span class="path">plantilla / plan_de_contenido_1_pagina</span>
+      </div>
+      <div class="body">
+        <p class="eyebrow">PLANTILLA DE TRABAJO</p>
+        <h2 style="margin-bottom:6px">Tu Plan de Contenido en 1 Página</h2>
+        <p class="muted" style="margin-bottom:14px">Usa este esquema para mantener el enfoque durante los próximos 90 días:</p>
+
+        <div class="worksheet-grid">
+          <div class="worksheet-item">
+            <b>1. OBJETIVO EN 90 DÍAS</b>
+            <span id="sheetGoal">Construir una audiencia de confianza y validar mi mensaje principal de forma medible.</span>
+          </div>
+          <div class="worksheet-item">
+            <b>2. A QUIÉN LE HABLO (MI PERSONA)</b>
+            <span id="sheetAudience">Personas que valoran la honestidad y buscan una solución real a su necesidad.</span>
+          </div>
+          <div class="worksheet-item">
+            <b>3. MI PROMESA CENTRAL</b>
+            <span id="sheetPromise">Entregar valor útil y comprobable antes de pedir cualquier compra.</span>
+          </div>
+          <div class="worksheet-item">
+            <b>4. MIS 3 PILARES DE PUBLICACIÓN</b>
+            <span>• <b>Pilar Educativo:</b> Responder las preguntas frecuentes de mi audiencia.<br>• <b>Pilar Coherencia:</b> Mostrar historias reales, procesos y cumplimiento.<br>• <b>Pilar Servicio:</b> Llamados a la acción claros para dar el siguiente paso.</span>
+          </div>
+          <div class="worksheet-item">
+            <b>5. CANAL Y RITMO SEMANAL</b>
+            <span id="sheetCadence">1 o 2 publicaciones principales por semana + interacción diaria en mensajes.</span>
+          </div>
+          <div class="worksheet-item">
+            <b>6. MÉTRICA CLAVE DE ÉXITO</b>
+            <span>Número de conversaciones iniciadas por personas interesadas y tasa de recomendación.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: Los 5 Principios Bíblicos y Prácticos (Resumen Ejecutivo) -->
+    <div class="win">
+      <div class="bar">
+        <span class="dot" style="background:#6B2BFF"></span>
+        <span class="dot" style="background:#FFD60A"></span>
+        <span class="dot" style="background:#FF7A1A"></span>
+        <span class="path">resumen / 5_principios_marketing_con_propósito</span>
+      </div>
+      <div class="body">
+        <p class="eyebrow">RESUMEN DE LA PONENCIA</p>
+        <h2 style="margin-bottom:12px">Los 5 Principios de Marketing con Propósito</h2>
+        <table class="table-principles">
+          <thead>
+            <tr>
+              <th>Principio</th>
+              <th>Cita Bíblica</th>
+              <th>Regla de Oro Práctica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>01. Conocer</b></td>
+              <td>Prov. 27:23</td>
+              <td>Investiga primero: pregunta, escucha, observa y resume.</td>
+            </tr>
+            <tr>
+              <td><b>02. Adaptar</b></td>
+              <td>1 Cor. 9:22</td>
+              <td>El mensaje no cambia; el lenguaje se adapta al público, no al ego.</td>
+            </tr>
+            <tr>
+              <td><b>03. Coherencia</b></td>
+              <td>Mateo 5:16</td>
+              <td>Tu marca se demuestra en lo que cumples en la práctica diaria.</td>
+            </tr>
+            <tr>
+              <td><b>04. Reputación</b></td>
+              <td>Prov. 22:1</td>
+              <td>El buen nombre vale más que mil compras. Mide confianza real.</td>
+            </tr>
+            <tr>
+              <td><b>05. Planificar</b></td>
+              <td>Lucas 14:28</td>
+              <td>Calcula objetivo, tiempo, presupuesto y reserva descanso.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     <div class="row no-print">
       <button class="btn btn-primary" id="download">⬇ Descargar mi plan</button>
@@ -439,6 +613,11 @@ function renderResult(){
   if (userLead && userLead.nombre) {
     const firstName = userLead.nombre.trim().split(/\s+/)[0];
     $("profileIntro").textContent = `¡Hola, ${firstName}! ${p.intro}`;
+    $("printLeadTitle").textContent = `Plan Personal y Guía de Contenido · ${userLead.nombre}`;
+    const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+    $("printLeadSubtitle").textContent = `Dedicación: ${userLead.dedicacion || "Emprendedor/Profesional"} · Interés: ${userLead.tema_interes || "Marketing"} · Perfil: ${p.name} · Fecha: ${fecha}`;
+    $("sheetAudience").textContent = `Personas que necesitan soluciones en ${userLead.tema_interes ? userLead.tema_interes.toLowerCase() : "mi área"} y buscan honestidad.`;
+    $("sheetPromise").textContent = `Servir con excelencia desde mi rol (${userLead.dedicacion || "mi proyecto"}), cumpliendo lo que prometo.`;
   } else {
     $("profileIntro").textContent = p.intro;
   }
@@ -464,23 +643,104 @@ function planTexto(){
   const { p, info, week } = plan;
   const L = (a) => a.map((s,i) => "  " + (i+1) + ". " + s).join("\n");
   const nombre = (userLead && userLead.nombre) ? userLead.nombre : "Asistente";
+  const firstName = nombre.trim().split(/\s+/)[0];
   const lineas = [
-    "MARKETING CON PROPÓSITO · MI PLAN PERSONAL",
-    "==========================================", "",
-    "Asistente: " + nombre,
-    (userLead && userLead.dedicacion ? "Dedicación: " + userLead.dedicacion : ""),
-    (userLead && userLead.tema_interes ? "Tema de interés: " + userLead.tema_interes : ""),
-    "Perfil: " + p.name,
-    "Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
-    p.intro, "",
-    "TU PROPÓSITO", "  " + PURPOSE[info.para], "",
-    "CÓMO LO VAS A VIVIR", "  " + MODE[info.modo], "",
-    "QUÉ HACER AHORA", L(p.steps), "",
-    "TU PRIMERA SEMANA", L(week), "",
-    "QUÉ ESTUDIAR", L(p.study), "",
-    "HERRAMIENTAS", L(p.tools), "",
-    "PARA TU FRENO PRINCIPAL", "  " + FRENO[info.freno].t + ". " + FRENO[info.freno].tip, "",
-    "— Taller Marketing con propósito · Sumas Pro"
+    "===========================================================",
+    "  MARKETING CON PROPÓSITO · DOSSIER PERSONAL Y GUÍA",
+    "  Ponencia impartida por Manuel Quijada · SUMAS PRO",
+    "===========================================================", "",
+    `¡Hola, ${firstName}!`,
+    "Este es tu plan de marketing personalizado y la guía compacta",
+    "con todos los principios clave enseñados en la presentación.", "",
+    "-----------------------------------------------------------",
+    "1. FICHA DEL PARTICIPANTE",
+    "-----------------------------------------------------------",
+    "  Nombre: " + nombre,
+    (userLead && userLead.dedicacion ? "  Dedicación: " + userLead.dedicacion : ""),
+    (userLead && userLead.tema_interes ? "  Tema de interés principal: " + userLead.tema_interes : ""),
+    "  Perfil Diagnosticado: " + p.name,
+    "  Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
+    "  Diagnóstico:",
+    "  " + p.intro, "",
+    "-----------------------------------------------------------",
+    "2. TU PROPÓSITO Y FORMA DE VIVIRLO",
+    "-----------------------------------------------------------",
+    "  Tu propósito:",
+    "  " + PURPOSE[info.para], "",
+    "  Cómo lo vas a vivir:",
+    "  " + MODE[info.modo], "",
+    "-----------------------------------------------------------",
+    "3. QUÉ HACER AHORA (PASOS CLAVE)",
+    "-----------------------------------------------------------",
+    L(p.steps), "",
+    "-----------------------------------------------------------",
+    "4. PLAN DE ACCIÓN PARA TU PRIMERA SEMANA",
+    "-----------------------------------------------------------",
+    L(week), "",
+    "-----------------------------------------------------------",
+    "5. QUÉ ESTUDIAR Y HERRAMIENTAS RECOMENDADAS",
+    "-----------------------------------------------------------",
+    "  Áreas de estudio:",
+    L(p.study), "",
+    "  Herramientas:",
+    L(p.tools), "",
+    "-----------------------------------------------------------",
+    "6. PARA SUPERAR TU FRENO PRINCIPAL",
+    "-----------------------------------------------------------",
+    "  " + FRENO[info.freno].t + ": " + FRENO[info.freno].tip, "",
+    "===========================================================",
+    "  GUÍA: PASO A PASO PARA PLANIFICAR TU CONTENIDO",
+    "  (Metodología extraída de los slides de Manuel Quijada)",
+    "===========================================================", "",
+    "PASO 1: INVESTIGA ANTES DE PUBLICAR (Proverbios 27:23)",
+    "  • 'Sé solícito en conocer el estado de tus ovejas'.",
+    "  • Pregunta con encuestas simples o habla con 5 clientes reales.",
+    "  • Escucha en comentarios y mensajes anotando sus palabras exactas.",
+    "  • Observa qué contenidos generan conversación y agradecimiento.",
+    "  • Resume en una página las 3 necesidades más repetidas.", "",
+    "PASO 2: RESPONDE A PREGUNTAS REALES (Primero la respuesta, después la oferta)",
+    "  • Recoge las dudas tal cual llegan por WhatsApp o redes.",
+    "  • Agrúpalas en 3 a 5 temas pilares.",
+    "  • Responde cada duda directamente; luego invita al siguiente paso.",
+    "  • Si la gente vuelve a preguntar lo mismo, simplifica tu mensaje.", "",
+    "PASO 3: ADAPTA EL MENSAJE, NO CAMBIES LA VERDAD (1 Corintios 9:22)",
+    "  • 'A todos me he hecho de todo': el propósito es firme, el canal flexible.",
+    "  • Habla como habla tu público, no como habla tu ego.",
+    "  • Quita tecnicismos y autoelogios: la gente busca soluciones comprensibles.", "",
+    "PASO 4: COHERENCIA: TU MARCA SE VE EN LO QUE CUMPLES (Mateo 5:16)",
+    "  • 'Así brille vuestra luz delante de los hombres'.",
+    "  • Tu marca se construye en cómo atiendes y entregas lo prometido.",
+    "  • La coherencia genera más fidelidad que cualquier presupuesto publicitario.", "",
+    "PASO 5: MIDE LA CONFIANZA Y LA REPUTACIÓN (Proverbios 22:1)",
+    "  • 'De más estima es el buen nombre que las muchas riquezas'.",
+    "  • Mide cuántas personas vuelven y recomiendan tu trabajo.",
+    "  • Prioriza la confianza a largo plazo sobre los likes vacíos.", "",
+    "PASO 6: PLANIFICA, ADMINISTRA Y DESCANSA (Lucas 14:28)",
+    "  • 'Calcula primero los gastos': define meta medible a 90 días.",
+    "  • Reserva bloques fijos en tu calendario para planear, crear y responder.",
+    "  • Programa pausas y descansos: administrar bien también es saber parar.", "",
+    "===========================================================",
+    "  PLANTILLA: TU PLAN DE CONTENIDO EN 1 PÁGINA",
+    "===========================================================",
+    "  1. Objetivo en 90 días: Construir audiencia de confianza medible.",
+    "  2. A quién le hablo: Personas con necesidades reales en mi sector.",
+    "  3. Mi promesa central: Cumplir con excelencia lo que ofrezco.",
+    "  4. Mis 3 Pilares:",
+    "     • Pilar Educativo: Responder dudas frecuentes de clientes.",
+    "     • Pilar Coherencia: Mostrar procesos, casos y servicio real.",
+    "     • Pilar Oferta: Invitación clara a dar el siguiente paso.",
+    "  5. Ritmo: 1-2 publicaciones semanales de alto valor + mensajes.",
+    "  6. Métrica clave: Conversaciones reales y recomendaciones.", "",
+    "===========================================================",
+    "  LOS 5 PRINCIPIOS BÍBLICOS DEL MARKETING CON PROPÓSITO",
+    "===========================================================",
+    "  01. Conocer      | Prov. 27:23 | Investiga antes de publicar.",
+    "  02. Adaptar      | 1 Cor. 9:22 | Habla en el idioma de tu público.",
+    "  03. Coherencia   | Mateo 5:16  | Tu marca se ve en lo que cumples.",
+    "  04. Reputación   | Prov. 22:1  | Más vale buen nombre que riquezas.",
+    "  05. Planificar   | Lucas 14:28 | Calcula presupuesto, tiempo y descanso.", "",
+    "___________________________________________________________",
+    "Taller Marketing con Propósito · Manuel Quijada · SUMAS PRO"
   ].filter(Boolean);
   return lineas.join("\n");
 }

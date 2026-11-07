@@ -15,6 +15,72 @@ const ADMIN_KEY = process.env.ADMIN_KEY || "cambia-esta-clave";
 const PUBLIC_URL = (process.env.PUBLIC_URL || "").replace(/\/+$/, "");
 const DATA_DIR = path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "estado.json");
+const LEADS_FILE = path.join(DATA_DIR, "leads.json");
+
+// Cargar variables de .env si existe localmente
+const ENV_FILE = path.join(__dirname, ".env");
+if (fs.existsSync(ENV_FILE)) {
+  try {
+    const lines = fs.readFileSync(ENV_FILE, "utf8").split(/\r?\n/);
+    for (const line of lines) {
+      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+      if (match && !process.env[match[1]]) {
+        process.env[match[1]] = (match[2] || "").trim().replace(/^['"]|['"]$/g, "");
+      }
+    }
+  } catch (e) {}
+}
+
+let leads = [];
+try {
+  if (fs.existsSync(LEADS_FILE)) leads = JSON.parse(fs.readFileSync(LEADS_FILE, "utf8"));
+} catch (e) {
+  leads = [];
+}
+
+function guardarLeadLocal(lead) {
+  leads.push(lead);
+  try {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+  } catch (e) {
+    console.error("Error guardando lead local:", e.message);
+  }
+}
+
+async function enviarASupabase(lead) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
+  if (!supabaseUrl || !supabaseKey) return false;
+  try {
+    const res = await fetch(`${supabaseUrl.replace(/\/+$/, "")}/rest/v1/leads_taller`, {
+      method: "POST",
+      headers: {
+        "apikey": supabaseKey,
+        "Authorization": `Bearer ${supabaseKey}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        nombre: lead.nombre,
+        telefono: lead.telefono,
+        email: lead.email,
+        dedicacion: lead.dedicacion,
+        tema_interes: lead.tema_interes,
+        perfil: lead.perfil,
+        device_id: lead.deviceId,
+        respuestas: lead.respuestas,
+        created_at: lead.fecha || new Date().toISOString()
+      })
+    });
+    if (res.ok) console.log(`✓ Lead de ${lead.nombre} guardado en Supabase`);
+    else console.warn("Aviso Supabase al guardar lead:", res.status, await res.text());
+    return res.ok;
+  } catch (err) {
+    console.warn("No se pudo enviar lead a Supabase:", err.message);
+    return false;
+  }
+}
 
 // Opciones de la encuesta (deben coincidir con la app y la diapositiva 24)
 const OPCIONES = {
@@ -145,6 +211,63 @@ app.post("/api/diagnostico", (req, res) => {
   if (!registrarDiagnostico(deviceId, perfil)) return res.status(400).json({ ok: false });
   io.emit("resultados", resultados());
   res.json({ ok: true });
+});
+
+// Captura de datos del asistente (Lead para desbloquear el diagnóstico)
+app.post("/api/registro-lead", async (req, res) => {
+  const { nombre, telefono, email, dedicacion, tema_interes, perfil, respuestas, deviceId } = req.body || {};
+  if (!nombre || !telefono || !email) {
+    return res.status(400).json({ ok: false, error: "Nombre, teléfono y correo son requeridos" });
+  }
+
+  const lead = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+    nombre: String(nombre).trim().slice(0, 100),
+    telefono: String(telefono).trim().slice(0, 40),
+    email: String(email).trim().toLowerCase().slice(0, 120),
+    dedicacion: String(dedicacion || "").trim().slice(0, 120),
+    tema_interes: String(tema_interes || "").trim().slice(0, 120),
+    perfil: String(perfil || "").trim().slice(0, 50),
+    respuestas: respuestas || null,
+    deviceId: String(deviceId || "").trim().slice(0, 64),
+    fecha: new Date().toISOString()
+  };
+
+  guardarLeadLocal(lead);
+  if (lead.deviceId && lead.perfil) {
+    registrarDiagnostico(lead.deviceId, lead.perfil);
+    io.emit("resultados", resultados());
+  }
+
+  // Intentar sincronizar con Supabase en segundo plano si está configurado
+  enviarASupabase(lead).catch(() => {});
+
+  res.json({ ok: true, leadId: lead.id });
+});
+
+// Listado de leads para el orador / organizador: GET /api/leads?clave=...
+app.get("/api/leads", (req, res) => {
+  if (req.query.clave !== ADMIN_KEY) return res.status(403).json({ ok: false, error: "Clave no autorizada" });
+  res.json({ total: leads.length, leads });
+});
+
+// Descargar lista de leads en formato CSV para Excel: GET /api/leads/export.csv?clave=...
+app.get("/api/leads/export.csv", (req, res) => {
+  if (req.query.clave !== ADMIN_KEY) return res.status(403).send("No autorizado. Pasa ?clave=TU_ADMIN_KEY");
+  const headers = ["Fecha", "Nombre", "Teléfono", "Email", "¿A qué se dedica?", "Tema de interés", "Perfil de Marketing"];
+  const rows = leads.map((l) => [
+    `"${l.fecha || ""}"`,
+    `"${(l.nombre || "").replace(/"/g, '""')}"`,
+    `"${(l.telefono || "").replace(/"/g, '""')}"`,
+    `"${(l.email || "").replace(/"/g, '""')}"`,
+    `"${(l.dedicacion || "").replace(/"/g, '""')}"`,
+    `"${(l.tema_interes || "").replace(/"/g, '""')}"`,
+    `"${(l.perfil || "").replace(/"/g, '""')}"`
+  ].join(","));
+  const csv = [headers.join(","), ...rows].join("\r\n");
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.setHeader("Content-Disposition", 'attachment; filename="leads-taller-marketing.csv"');
+  res.send("\uFEFF" + csv);
 });
 
 // Reiniciar la encuesta antes del taller: POST /api/reiniciar con { "clave": "..." }

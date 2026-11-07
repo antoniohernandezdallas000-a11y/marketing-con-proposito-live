@@ -62,6 +62,17 @@ p{margin:0 0 12px;line-height:1.45}
 .progress{height:10px;background:var(--lav);border:2px solid var(--ink);border-radius:99px;overflow:hidden;margin-bottom:10px}
 .progress span{display:block;height:100%;background:var(--purple);transition:width .4s ease}
 .count{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:14px}
+/* Formulario de desbloqueo (Leads) */
+.field{margin-bottom:14px;text-align:left}
+.field label{display:block;font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.field label span{color:var(--purple)}
+.input-text,.select-text{
+  width:100%;padding:13px 14px;border-radius:12px;border:2px solid var(--ink);
+  background:var(--lav-2);font-size:16px;font-family:var(--sans);color:var(--ink);
+  outline:none;transition:border-color .15s, background .15s;
+}
+.input-text:focus,.select-text:focus{border-color:var(--purple);background:var(--cream);outline:2px solid var(--purple)}
+.input-text::placeholder{color:var(--muted);opacity:.7}
 .options{display:grid;gap:10px}
 .opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:56px;padding:12px 14px;background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;color:var(--ink);font-weight:600;font-size:16px;transition:transform .1s}
 .opt:active{transform:scale(.98)}
@@ -133,6 +144,60 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
         <h2 id="question"></h2>
         <div class="options" id="options"></div>
         <div class="row"><button class="btn btn-ghost" id="back">← Anterior</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gate" hidden>
+    <div class="hero" style="padding:24px 20px 22px">
+      <div class="dots" aria-hidden="true"></div>
+      <p class="eyebrow" style="color:var(--yellow)">¡DIAGNÓSTICO COMPLETADO!</p>
+      <h1 style="font-size:clamp(24px,7vw,32px);margin-bottom:8px">Desbloquea tu <span>Plan Personal</span></h1>
+      <p style="opacity:.9;margin:0;font-size:15px">Ingresa tus datos para revelar tus resultados, hoja de ruta y recomendaciones exclusivas de Manuel Quijada.</p>
+    </div>
+    <div class="win">
+      <div class="bar">
+        <span class="dot" style="background:#6B2BFF"></span>
+        <span class="dot" style="background:#FFD60A"></span>
+        <span class="dot" style="background:#FF7A1A"></span>
+        <span class="path">diagnóstico / desbloquear_plan</span>
+      </div>
+      <div class="body">
+        <form id="gateForm">
+          <div class="field">
+            <label for="lead_nombre">Nombre completo <span>*</span></label>
+            <input type="text" id="lead_nombre" class="input-text" placeholder="Ej. Carlos Mendoza" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="lead_telefono">Número de teléfono (WhatsApp) <span>*</span></label>
+            <input type="tel" id="lead_telefono" class="input-text" placeholder="Ej. +58 412 1234567" required autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="lead_email">Correo electrónico <span>*</span></label>
+            <input type="email" id="lead_email" class="input-text" placeholder="tu@correo.com" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="lead_dedicacion">¿A qué te dedicas? <span>*</span></label>
+            <input type="text" id="lead_dedicacion" class="input-text" placeholder="Ej. Dueño de negocio, consultor, creador..." required>
+          </div>
+          <div class="field">
+            <label for="lead_tema">Tema de mayor interés <span>*</span></label>
+            <select id="lead_tema" class="select-text" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Estrategia y contenidos">Estrategia y contenidos</option>
+              <option value="Ventas y captación de clientes">Ventas y captación de clientes</option>
+              <option value="Diseño y branding">Diseño y branding</option>
+              <option value="Redes sociales y video">Redes sociales y video</option>
+              <option value="Publicidad digital / Ads">Publicidad digital / Ads</option>
+              <option value="Organización y métricas">Organización y métricas</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <p id="gateError" style="color:#D91438;font-weight:700;font-size:14px;margin:6px 0 10px" hidden>Por favor completa todos los campos requeridos.</p>
+          <div class="row" style="margin-top:14px">
+            <button type="submit" class="btn btn-primary" id="gateBtn" style="width:100%">Desbloquear mi plan personalizado →</button>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -301,8 +366,26 @@ const FRENO = {
 const TAGS = { yo:"PARA MI MARCA", otros:"PARA OTRAS PERSONAS", mixto:"PARA MÍ Y PARA OTROS", hobby:"HOBBY", profesional:"PROFESIONAL", emprendedor:"EMPRENDEDOR" };
 
 let answers = [], current = 0, plan = null;
+let userLead = null;
+try { userLead = JSON.parse(localStorage.getItem("mcp_lead")); } catch(e){}
 
-function show(id){ ["intro","quiz","result"].forEach(s => $(s).hidden = s !== id); window.scrollTo(0,0); }
+function show(id){ ["intro","quiz","gate","result"].forEach(s => $(s).hidden = s !== id); window.scrollTo(0,0); }
+
+function handleQuizCompletion() {
+  if (userLead && userLead.nombre && userLead.email) {
+    renderResult();
+  } else {
+    // Si ya había llenado campos antes, pre-llenarlos
+    if (userLead) {
+      if (userLead.nombre) $("lead_nombre").value = userLead.nombre;
+      if (userLead.telefono) $("lead_telefono").value = userLead.telefono;
+      if (userLead.email) $("lead_email").value = userLead.email;
+      if (userLead.dedicacion) $("lead_dedicacion").value = userLead.dedicacion;
+      if (userLead.tema_interes) $("lead_tema").value = userLead.tema_interes;
+    }
+    show("gate");
+  }
+}
 
 function renderQuestion(){
   const q = QUESTIONS[current];
@@ -320,7 +403,7 @@ function renderQuestion(){
     b.onclick = () => {
       answers[current] = i;
       b.classList.add("sel");
-      setTimeout(() => { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } else renderResult(); }, 160);
+      setTimeout(() => { if (current < QUESTIONS.length - 1) { current++; renderQuestion(); } else handleQuizCompletion(); }, 160);
     };
     box.appendChild(b);
   });
@@ -353,10 +436,20 @@ function fill(id, items){
 
 function renderResult(){
   const { key, info } = score(); const p = PROFILES[key];
+  if (userLead && userLead.nombre) {
+    const firstName = userLead.nombre.trim().split(/\s+/)[0];
+    $("profileIntro").textContent = `¡Hola, ${firstName}! ${p.intro}`;
+  } else {
+    $("profileIntro").textContent = p.intro;
+  }
   $("profileName").textContent = p.name;
-  $("profileIntro").textContent = p.intro;
   $("tags").innerHTML = "";
   [info.para, info.modo].forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = TAGS[t]; $("tags").appendChild(s); });
+  if (userLead && userLead.tema_interes) {
+    const s = document.createElement("span"); s.className = "tag"; s.style.background = "#FF7A1A"; s.style.color = "#FFFDF9";
+    s.textContent = "INTERÉS: " + userLead.tema_interes.toUpperCase();
+    $("tags").appendChild(s);
+  }
   $("purposeText").textContent = PURPOSE[info.para];
   $("modeText").textContent = MODE[info.modo];
   const week = weekPlan(info.tiempo);
@@ -370,10 +463,15 @@ function renderResult(){
 function planTexto(){
   const { p, info, week } = plan;
   const L = (a) => a.map((s,i) => "  " + (i+1) + ". " + s).join("\n");
-  return [
+  const nombre = (userLead && userLead.nombre) ? userLead.nombre : "Asistente";
+  const lineas = [
     "MARKETING CON PROPÓSITO · MI PLAN PERSONAL",
-    "==========================================","",
-    "Perfil: " + p.name, "Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
+    "==========================================", "",
+    "Asistente: " + nombre,
+    (userLead && userLead.dedicacion ? "Dedicación: " + userLead.dedicacion : ""),
+    (userLead && userLead.tema_interes ? "Tema de interés: " + userLead.tema_interes : ""),
+    "Perfil: " + p.name,
+    "Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
     p.intro, "",
     "TU PROPÓSITO", "  " + PURPOSE[info.para], "",
     "CÓMO LO VAS A VIVIR", "  " + MODE[info.modo], "",
@@ -382,9 +480,56 @@ function planTexto(){
     "QUÉ ESTUDIAR", L(p.study), "",
     "HERRAMIENTAS", L(p.tools), "",
     "PARA TU FRENO PRINCIPAL", "  " + FRENO[info.freno].t + ". " + FRENO[info.freno].tip, "",
-    "— Taller Marketing con propósito · Sumas Pro",
-  ].join("\n");
+    "— Taller Marketing con propósito · Sumas Pro"
+  ].filter(Boolean);
+  return lineas.join("\n");
 }
+
+$("gateForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const nombre = $("lead_nombre").value.trim();
+  const telefono = $("lead_telefono").value.trim();
+  const email = $("lead_email").value.trim();
+  const dedicacion = $("lead_dedicacion").value.trim();
+  const tema_interes = $("lead_tema").value;
+
+  if (!nombre || !telefono || !email || !dedicacion || !tema_interes) {
+    $("gateError").hidden = false;
+    return;
+  }
+  $("gateError").hidden = true;
+  const btn = $("gateBtn");
+  btn.disabled = true;
+  btn.textContent = "Desbloqueando plan…";
+
+  const { key, info } = score();
+  userLead = {
+    nombre,
+    telefono,
+    email,
+    dedicacion,
+    tema_interes,
+    perfil: key,
+    deviceId: DEVICE,
+    respuestas: answers,
+    fecha: new Date().toISOString()
+  };
+  try { localStorage.setItem("mcp_lead", JSON.stringify(userLead)); } catch(err){}
+
+  try {
+    await fetch("/api/registro-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userLead)
+    });
+  } catch (err) {
+    console.warn("Aviso enviando lead:", err);
+  }
+
+  btn.disabled = false;
+  btn.textContent = "Desbloquear mi plan personalizado →";
+  renderResult();
+};
 
 $("start").onclick = () => { answers = []; current = 0; show("quiz"); renderQuestion(); };
 $("back").onclick = () => { if (current > 0) { current--; renderQuestion(); } };

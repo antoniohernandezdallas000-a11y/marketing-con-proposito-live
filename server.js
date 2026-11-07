@@ -69,7 +69,6 @@ async function enviarASupabase(lead) {
         tema_interes: lead.tema_interes,
         perfil: lead.perfil,
         device_id: lead.deviceId,
-        respuestas: lead.respuestas,
         created_at: lead.fecha || new Date().toISOString()
       })
     });

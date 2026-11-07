@@ -62,12 +62,15 @@ html,body{{margin:0;height:100%;background:#0F0B22;overflow:hidden}}
 @keyframes bump{{0%{{transform:scale(1)}}40%{{transform:scale(1.12)}}100%{{transform:scale(1)}}}}
 .bump{{animation:bump .5s ease}}
 #counter{{position:fixed;right:16px;bottom:12px;font:700 13px 'Courier Prime',monospace;color:#8F84C9;letter-spacing:2px;opacity:.6}}
+#fs-btn{{position:fixed;left:16px;bottom:12px;background:rgba(21,16,46,.75);color:#C9B8FF;border:1px solid #3B3562;border-radius:8px;padding:6px 12px;font:700 13px 'Courier Prime',monospace;letter-spacing:1px;cursor:pointer;opacity:.4;transition:opacity .2s,background .2s;z-index:9999}}
+#fs-btn:hover{{opacity:1;background:#6B2BFF;color:#FFF8F0}}
 </style>
 </head>
 <body>
 <div id="stage">
 {chr(10).join(partes)}
 </div>
+<button id="fs-btn" type="button" title="Pantalla completa (F)" aria-label="Pantalla completa">⛶ Pantalla completa (F)</button>
 <div id="counter"></div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/deck.js"></script>

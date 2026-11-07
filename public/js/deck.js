@@ -35,7 +35,24 @@
     el.outerHTML = svg;
   });
 
-  /* ---------- Navegación ---------- */
+  /* ---------- Pantalla completa ---------- */
+  const fsBtn = document.getElementById("fs-btn");
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+    } else {
+      document.exitFullscreen?.().catch(() => {});
+    }
+  }
+  if (fsBtn) {
+    fsBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFullscreen();
+    });
+    document.addEventListener("fullscreenchange", () => {
+      fsBtn.textContent = document.fullscreenElement ? "✕ Salir (F)" : "⛶ Pantalla completa (F)";
+    });
+  }
   function fit() {
     const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
     stage.style.transform = `translate(-50%, -50%) scale(${s})`;
@@ -55,7 +72,7 @@
     else if (e.key === "Home") go(0);
     else if (e.key === "End") go(slides.length - 1);
     else if (e.key === "f" || e.key === "F") {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.();
+      toggleFullscreen();
     }
   });
   document.addEventListener("click", (e) => { if (e.target.closest("a,button,.poll-row")) return; go(e.clientX > window.innerWidth / 2 ? i + 1 : i - 1); });

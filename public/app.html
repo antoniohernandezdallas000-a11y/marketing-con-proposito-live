@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#6B2BFF">
-<title>Marketing con propósito · App</title>
+<title>Marketing con propósito · App & E-Book</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Courier+Prime:wght@400;700&display=swap">
 <style>
@@ -23,26 +23,29 @@ body{
   padding:0 16px calc(32px + env(safe-area-inset-bottom));
 }
 button{font:inherit;cursor:pointer}
-.wrap{max-width:560px;margin:0 auto}
+.wrap{max-width:620px;margin:0 auto}
+
 /* Barra superior */
 .top{position:sticky;top:0;z-index:5;margin:0 -16px 18px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;background:var(--cream);border-bottom:2px solid #D9CCF7}
-.top-in{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top-in{max-width:620px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:2px}
 .tabs{display:flex;background:var(--lav);border-radius:12px;padding:4px;gap:4px}
 .tab{border:0;background:transparent;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:1px;padding:8px 12px;border-radius:9px;color:var(--ink-2)}
 .tab[aria-selected="true"]{background:var(--purple);color:var(--cream)}
-/* Ventana tipo navegador */
+
+/* Ventana estilo aplicación para el quiz y el registro */
 .win{background:var(--cream);border:2px solid var(--ink);border-radius:20px;box-shadow:0 14px 40px rgba(21,16,46,.12);overflow:hidden;margin-bottom:16px}
 .bar{display:flex;align-items:center;gap:8px;background:var(--lav);border-bottom:2px solid var(--ink);padding:10px 14px}
 .dot{width:12px;height:12px;border-radius:50%}
 .bar .path{flex:1;text-align:center;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink-2);margin-right:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .body{padding:22px 20px 24px}
 .eyebrow{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin:0 0 10px}
-h1{font-size:clamp(30px,8vw,40px);font-weight:900;letter-spacing:-1.5px;line-height:1.02;margin:0 0 12px}
-h2{font-size:clamp(22px,6vw,28px);font-weight:900;letter-spacing:-.8px;line-height:1.12;margin:0 0 14px}
-h3{font-size:18px;font-weight:800;margin:0 0 8px}
-p{margin:0 0 12px;line-height:1.45}
+h1{font-size:clamp(30px,8vw,40px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin:0 0 12px}
+h2{font-size:clamp(22px,6vw,28px);font-weight:900;letter-spacing:-.8px;line-height:1.15;margin:0 0 14px}
+h3{font-size:19px;font-weight:800;margin:0 0 8px}
+p{margin:0 0 12px;line-height:1.55}
 .muted{color:var(--muted)}
+
 /* Hero morado */
 .hero{position:relative;background:var(--purple);color:var(--cream);border-radius:24px;padding:28px 22px 26px;margin-bottom:16px;overflow:hidden}
 .hero h1 span{color:var(--yellow)}
@@ -50,18 +53,29 @@ p{margin:0 0 12px;line-height:1.45}
 .hero .dots{position:absolute;right:-20px;top:-20px;width:180px;height:180px;background-image:radial-gradient(var(--purple-dark) 35%,transparent 36%);background-size:16px 16px;-webkit-mask-image:radial-gradient(circle at 100% 0,#000,transparent 70%);mask-image:radial-gradient(circle at 100% 0,#000,transparent 70%)}
 .pill{display:inline-block;font-family:var(--mono);font-weight:700;font-size:14px;background:var(--ink);color:var(--cream);padding:10px 16px;border-radius:10px}
 .sticker{position:absolute;filter:drop-shadow(0 4px 6px rgba(21,16,46,.3))}
+
 /* Botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 22px;border-radius:14px;border:2px solid var(--ink);font-weight:800;font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 22px;border-radius:14px;border:2px solid var(--ink);font-weight:800;font-size:16px;text-align:center;transition:transform .1s, filter .1s}
+.btn:active{transform:scale(.98)}
 .btn-primary{background:var(--yellow);color:var(--ink)}
 .btn-dark{background:var(--ink);color:var(--cream)}
+.btn-purple{background:var(--purple);color:var(--cream);border-color:var(--purple-dark)}
 .btn-ghost{background:var(--cream);color:var(--ink)}
 .btn:focus-visible,.opt:focus-visible,.tab:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .row .btn{flex:1 1 auto}
+
 /* Quiz */
 .progress{height:10px;background:var(--lav);border:2px solid var(--ink);border-radius:99px;overflow:hidden;margin-bottom:10px}
 .progress span{display:block;height:100%;background:var(--purple);transition:width .4s ease}
 .count{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:14px}
+.options{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:56px;padding:12px 14px;background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;color:var(--ink);font-weight:600;font-size:16px;transition:transform .1s}
+.opt:active{transform:scale(.98)}
+.opt .k{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;background:var(--cream);border:2px solid var(--ink)}
+.opt.sel{background:var(--purple);color:var(--cream)}
+.opt.sel .k{background:var(--yellow);color:var(--ink)}
+
 /* Formulario de desbloqueo (Leads) */
 .field{margin-bottom:14px;text-align:left}
 .field label{display:block;font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink)}
@@ -73,18 +87,7 @@ p{margin:0 0 12px;line-height:1.45}
 }
 .input-text:focus,.select-text:focus{border-color:var(--purple);background:var(--cream);outline:2px solid var(--purple)}
 .input-text::placeholder{color:var(--muted);opacity:.7}
-.options{display:grid;gap:10px}
-.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:56px;padding:12px 14px;background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;color:var(--ink);font-weight:600;font-size:16px;transition:transform .1s}
-.opt:active{transform:scale(.98)}
-.opt .k{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;background:var(--cream);border:2px solid var(--ink)}
-.opt.sel{background:var(--purple);color:var(--cream)}
-.opt.sel .k{background:var(--yellow);color:var(--ink)}
-/* Resultado */
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.tag{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:1px;padding:6px 10px;border-radius:8px;background:var(--yellow);color:var(--ink)}
-ul.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-ul.list li{display:flex;gap:12px;align-items:flex-start;line-height:1.4}
-ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15px;padding-top:1px}
+
 /* Votación */
 .vote{position:relative;overflow:hidden}
 .vote .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(107,43,255,.18);transition:width .8s cubic-bezier(.2,.8,.2,1)}
@@ -97,37 +100,265 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
 .thanks{background:var(--ink);color:var(--cream);border-radius:14px;padding:14px 16px;margin-top:14px;font-weight:700}
 .thanks span{color:var(--yellow)}
 [hidden]{display:none!important}
-.foot{text-align:center;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:22px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-/* Componentes de la Guía y Planificación de Contenido */
-.box-step{background:var(--lav-2);border:2px solid var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:12px}
-.box-step h4{margin:0 0 6px;font-size:17px;font-weight:800;color:var(--purple)}
-.box-step p{margin:0;font-size:15px;line-height:1.45}
-.verse-badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;background:var(--ink);color:var(--yellow);padding:3px 8px;border-radius:6px;margin-bottom:8px}
-.table-principles{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
-.table-principles th,.table-principles td{border:1.5px solid var(--ink);padding:10px 12px;text-align:left}
-.table-principles th{background:var(--lav);color:var(--purple);font-family:var(--mono);font-weight:700}
-.table-principles td{background:var(--cream)}
-.worksheet-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
-.worksheet-item{border:2px dashed var(--ink);border-radius:12px;padding:12px 14px;background:#FFFDF9}
-.worksheet-item b{display:block;font-size:12px;font-family:var(--mono);color:var(--purple);letter-spacing:1px;margin-bottom:6px}
-.worksheet-item span{display:block;font-size:15px;color:var(--ink);line-height:1.4}
-.print-only{display:none}
+.foot{text-align:center;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:24px}
 
-/* Imprimir / Guardar como PDF */
-@media print{
-  body{background:#fff;padding:14px 24px;color:#15102E}
-  .top,.hero,#vistaVotar,.no-print,.foot,#intro,#quiz,#gate{display:none!important}
-  .print-only{display:block!important}
-  .win{box-shadow:none;border:1.5px solid #15102E;border-radius:14px;break-inside:avoid;margin-bottom:16px}
-  .bar{background:#EFE8FF;border-bottom:1.5px solid #15102E;padding:8px 14px}
-  .body{padding:14px 18px}
-  .page-break{page-break-before:always;break-before:page}
-  h1{font-size:24px!important}
-  h2{font-size:20px!important}
-  h3{font-size:16px!important}
-  p,li{font-size:13px!important;line-height:1.4!important}
-  .box-step p,.worksheet-item span,.table-principles td{font-size:12px!important}
+/* ==========================================================================
+   DISEÑO EDITORIAL DEL E-BOOK (PANTALLA Y LECTURA FLUIDA)
+   ========================================================================== */
+.ebook-wrapper {
+  background: var(--cream);
+  border-radius: 24px;
+  border: 1px solid #D9CCF7;
+  box-shadow: 0 18px 48px rgba(21,16,46,.10);
+  padding: 32px 28px;
+  margin-bottom: 24px;
+}
+.ebook-cover-card {
+  background: linear-gradient(135deg, #15102E 0%, #29185B 60%, #4A14D9 100%);
+  color: #FFFDF9;
+  border-radius: 20px;
+  padding: 36px 28px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.ebook-publisher {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ebook-cover-title {
+  font-size: clamp(28px, 6vw, 36px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin: 0 0 10px;
+  color: #FFFDF9;
+}
+.ebook-cover-sub {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #E9E0FF;
+  margin: 0 0 20px;
+}
+.ebook-recipient-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+.ebook-recipient-box b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.ebook-recipient-box p {
+  margin: 0;
+  font-size: 15px;
+  color: #FFFDF9;
+}
+
+.ebook-section {
+  margin-bottom: 32px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #EFE8FF;
+}
+.ebook-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.ebook-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.ebook-heading {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+.ebook-prose {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #2E2850;
+  margin: 0 0 14px;
+}
+.ebook-callout {
+  background: #F8F5FF;
+  border-left: 4px solid var(--purple);
+  border-radius: 0 14px 14px 0;
+  padding: 16px 20px;
+  margin: 18px 0;
+}
+.ebook-callout.gold {
+  border-left-color: #E0A800;
+  background: #FFFDEE;
+}
+.ebook-verse-tag {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--purple);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+.ebook-callout.gold .ebook-verse-tag {
+  color: #9C7200;
+}
+.ebook-quote {
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ebook-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 16px 0;
+}
+.ebook-card-item {
+  background: #FFFFFF;
+  border: 1px solid #E8E0FA;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(21,16,46,0.03);
+}
+.ebook-card-item b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+.ebook-card-item p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+@media (min-width: 480px) {
+  .action-row {
+    flex-direction: row;
+  }
+  .action-row .btn {
+    flex: 1;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS DE IMPRESIÓN (PDF E-BOOK EDITORIAL COMPLETO)
+   ========================================================================== */
+@media print {
+  @page {
+    margin: 18mm 16mm;
+    size: portrait;
+  }
+  body {
+    background: #FFFFFF !important;
+    padding: 0 !important;
+    color: #15102E !important;
+    font-size: 11.5pt;
+    line-height: 1.6;
+  }
+  .top, .hero, #vistaVotar, .no-print, .foot, #intro, #quiz, #gate {
+    display: none !important;
+  }
+  .ebook-wrapper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  .ebook-cover-card {
+    background: #15102E !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #FFFDF9 !important;
+    page-break-after: always;
+    break-after: page;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 44px 34px !important;
+    border-radius: 12px !important;
+    border: 3px double #6B2BFF !important;
+  }
+  .ebook-cover-title {
+    font-size: 32pt !important;
+    color: #FFFFFF !important;
+  }
+  .ebook-cover-sub {
+    font-size: 14pt !important;
+    color: #E9E0FF !important;
+  }
+  .ebook-recipient-box {
+    background: #241A4E !important;
+    border: 1px solid #6B2BFF !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .ebook-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border-bottom: 1px solid #D9CCF7 !important;
+    margin-bottom: 26px !important;
+    padding-bottom: 20px !important;
+  }
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+  .ebook-callout {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #F8F5FF !important;
+    border-left: 4px solid #6B2BFF !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .ebook-card-item {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid #D9CCF7 !important;
+  }
+  h1 { font-size: 24pt !important; line-height: 1.15 !important; }
+  h2 { font-size: 17pt !important; line-height: 1.2 !important; }
+  .ebook-prose { font-size: 10.5pt !important; line-height: 1.6 !important; text-align: justify; }
 }
 </style>
 </head>
@@ -202,7 +433,7 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
           </div>
           <div class="field">
             <label for="lead_dedicacion">¿A qué te dedicas? <span>*</span></label>
-            <input type="text" id="lead_dedicacion" class="input-text" placeholder="Ej. Dueño de negocio, consultor, creador..." required>
+            <input type="text" id="lead_dedicacion" class="input-text" placeholder="Ej. Dueño de negocio, asesor, creador..." required>
           </div>
           <div class="field">
             <label for="lead_tema">Tema de mayor interés <span>*</span></label>
@@ -226,184 +457,223 @@ ul.list li b{flex:none;font-family:var(--mono);color:var(--purple);font-size:15p
     </div>
   </section>
 
+  <!-- ================= RESULTADO: FORMATO E-BOOK EDITORIAL ================= -->
   <section id="result" hidden>
-    <!-- Encabezado para Imprimir / PDF -->
-    <div class="print-only" style="margin-bottom:16px;border-bottom:2px solid #15102E;padding-bottom:12px">
-      <p style="font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--purple);margin:0 0 4px">MARKETING CON PROPÓSITO · DOSSIER PERSONALIZADO · MANUEL QUIJADA (SUMAS PRO)</p>
-      <h1 style="margin:0 0 6px;font-size:24px" id="printLeadTitle">Plan Personal y Guía de Contenido</h1>
-      <p style="margin:0;font-size:12px;color:var(--muted)" id="printLeadSubtitle"></p>
-    </div>
+    <div class="ebook-wrapper">
 
-    <div class="win">
-      <div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / perfil</span></div>
-      <div class="body">
-        <p class="eyebrow">TU PLAN PERSONAL</p>
-        <h1 id="profileName"></h1>
-        <p id="profileIntro"></p>
-        <div class="tags" id="tags"></div>
-      </div>
-    </div>
-    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / para_quién</span></div>
-      <div class="body"><h3>Tu propósito</h3><p id="purposeText"></p><h3>Cómo lo vas a vivir</h3><p id="modeText" style="margin:0"></p></div></div>
-    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / qué_hacer</span></div>
-      <div class="body"><h3>Qué hacer ahora</h3><ul class="list" id="steps"></ul></div></div>
-    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / cómo_empezar</span></div>
-      <div class="body"><h3>Tu primera semana</h3><ul class="list" id="week"></ul></div></div>
-    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / estudiar</span></div>
-      <div class="body"><h3>Qué estudiar</h3><ul class="list" id="study"></ul><h3 style="margin-top:16px">Herramientas</h3><ul class="list" id="tools"></ul></div></div>
-    <div class="win"><div class="bar"><span class="dot" style="background:#6B2BFF"></span><span class="dot" style="background:#FFD60A"></span><span class="dot" style="background:#FF7A1A"></span><span class="path">mi_plan / tu_freno</span></div>
-      <div class="body"><h3>Para tu freno principal</h3><p id="barrierText" style="margin:0"></p></div></div>
-
-    <!-- SECCIÓN: Paso a Paso para Planificación de Contenido (Método de los Slides) -->
-    <div class="win page-break">
-      <div class="bar">
-        <span class="dot" style="background:#6B2BFF"></span>
-        <span class="dot" style="background:#FFD60A"></span>
-        <span class="dot" style="background:#FF7A1A"></span>
-        <span class="path">guía_slides / planificación_contenido_paso_a_paso</span>
-      </div>
-      <div class="body">
-        <p class="eyebrow">METODOLOGÍA DE LOS SLIDES · SUMAS PRO</p>
-        <h2 style="margin-bottom:6px">Paso a Paso para Planificar tu Contenido</h2>
-        <p class="muted" style="margin-bottom:16px">Estructura tus publicaciones para servir a las personas correctas con constancia y sin abrumarte.</p>
-
-        <div class="box-step">
-          <span class="verse-badge">PASO 01 · PROVERBIOS 27:23</span>
-          <h4>Investiga antes de publicar</h4>
-          <p>“Sé solícito en conocer el estado de tus ovejas”. Pregunta con encuestas simples o habla con 5 clientes reales; escucha en comentarios y mensajes anotando sus palabras exactas; observa qué contenidos generan conversación y resume en 1 página las 3 necesidades más repetidas.</p>
+      <!-- Portada del E-Book -->
+      <div class="ebook-cover-card">
+        <div>
+          <div class="ebook-publisher">SUMAS PRO AGENCY · ADOR-ARTE 2026</div>
+          <h1 class="ebook-cover-title">Marketing con Propósito</h1>
+          <p class="ebook-cover-sub">Guía Estratégica, Metodología de Contenido y Plan de Acción Personalizado</p>
+          <p style="font-size:14px;color:#FFD60A;font-weight:700;margin:0 0 18px">Por Manuel Quijada · Fundador & Director Creativo de Sumas Pro Agency</p>
         </div>
 
-        <div class="box-step">
-          <span class="verse-badge">PASO 02 · RESPONDE A PREGUNTAS REALES</span>
-          <h4>Primero la respuesta, después la oferta</h4>
-          <p>Recoge las dudas de tus seguidores sin editarlas y agrúpalas en 3 a 5 temas. Cada tema es una publicación que responde de forma directa y clara. Si las personas siguen preguntando lo mismo tras publicar, la respuesta no fue lo bastante simple y debes pulirla.</p>
-        </div>
-
-        <div class="box-step">
-          <span class="verse-badge">PASO 03 · 1 CORINTIOS 9:22</span>
-          <h4>Habla como tu público, no como tu ego</h4>
-          <p>“A todos me he hecho de todo”. El mensaje central de tu propósito nunca cambia, pero el lenguaje y formato sí. Elimina tecnicismos, modas vacías y autoelogios. El ego busca sonar inteligente; el público necesita entender.</p>
-        </div>
-
-        <div class="box-step">
-          <span class="verse-badge">PASO 04 · MATEO 5:16</span>
-          <h4>Coherencia: tu marca se ve en lo que cumples</h4>
-          <p>“Así brille vuestra luz”. Tu marca no es solo lo que diseñas o publicas, es cómo atiendes y cumples cada promesa. Cumplir lo prometido construye confianza y fidelidad 10 veces más rápido que cualquier presupuesto en pauta publicitaria.</p>
-        </div>
-
-        <div class="box-step">
-          <span class="verse-badge">PASO 05 · PROVERBIOS 22:1</span>
-          <h4>Mide la confianza y no solo los números</h4>
-          <p>“De más estima es el buen nombre que las muchas riquezas”. Un seguidor ganado con verdad y servicio vale más que mil compras por impulso. Mide mensajes agradecidos, personas que vuelven y recomendaciones boca a boca, no solo likes de vanidad.</p>
-        </div>
-
-        <div class="box-step">
-          <span class="verse-badge">PASO 06 · LUCAS 14:28</span>
-          <h4>Planifica, administra y descansa</h4>
-          <p>“Calcula primero los gastos”. Define un objetivo medible a 90 días, un presupuesto honesto en dinero y horas sin endeudarte, bloques fijos en tu calendario para producir, y programa descansos: administrar bien también es saber parar.</p>
+        <div class="ebook-recipient-box">
+          <b>Ejemplar preparado exclusivamente para:</b>
+          <p id="coverLeadName" style="font-weight:800;font-size:18px"></p>
+          <p id="coverLeadMeta" style="font-size:14px;color:#E9E0FF;margin-top:2px"></p>
         </div>
       </div>
-    </div>
 
-    <!-- SECCIÓN: Plantilla de Plan de Contenido en 1 Página -->
-    <div class="win">
-      <div class="bar">
-        <span class="dot" style="background:#6B2BFF"></span>
-        <span class="dot" style="background:#FFD60A"></span>
-        <span class="dot" style="background:#FF7A1A"></span>
-        <span class="path">plantilla / plan_de_contenido_1_pagina</span>
+      <!-- Prólogo Personalizado -->
+      <div class="ebook-section">
+        <div class="ebook-label">PRÓLOGO EDITORIAL</div>
+        <h2 class="ebook-heading" id="prologueTitle">Por qué estamos aquí</h2>
+        <p class="ebook-prose" id="prologueGreeting"></p>
+        <p class="ebook-prose">
+          Vivimos en una época saturada de ruido digital, donde miles de marcas compiten ferozmente por segundos de atención vacía, obsesionadas con el próximo truco del algoritmo o la métrica de vanidad más reciente. Sin embargo, el verdadero marketing —el que trasciende, el que construye empresas duraderas y el que honra a Dios en el mercado— no nace de la manipulación ni de la prisa; nace del propósito. Nace de entender que detrás de cada pantalla y detrás de cada venta hay un ser humano real con anhelos, dificultades y preguntas que merecen respuestas honestas.
+        </p>
+        <div class="ebook-callout gold">
+          <span class="ebook-verse-tag">EL PRINCIPIO RECTOR</span>
+          <p class="ebook-quote">“No publiques para alimentar tu ego ni para impresionar a tus colegas; publica para servir la necesidad real de quien te escucha.”</p>
+        </div>
       </div>
-      <div class="body">
-        <p class="eyebrow">PLANTILLA DE TRABAJO</p>
-        <h2 style="margin-bottom:6px">Tu Plan de Contenido en 1 Página</h2>
-        <p class="muted" style="margin-bottom:14px">Usa este esquema para mantener el enfoque durante los próximos 90 días:</p>
 
-        <div class="worksheet-grid">
-          <div class="worksheet-item">
-            <b>1. OBJETIVO EN 90 DÍAS</b>
-            <span id="sheetGoal">Construir una audiencia de confianza y validar mi mensaje principal de forma medible.</span>
+      <!-- Capítulo 1: Tu Perfil Estratégico -->
+      <div class="ebook-section">
+        <div class="ebook-label">CAPÍTULO I</div>
+        <h2 class="ebook-heading">Tu Perfil Estratégico y Propósito</h2>
+        <div style="display:inline-block;background:var(--yellow);color:var(--ink);font-family:var(--mono);font-size:13px;font-weight:700;padding:6px 14px;border-radius:8px;margin-bottom:14px" id="badgeProfile"></div>
+        <p class="ebook-prose" id="profileDetail"></p>
+
+        <div class="ebook-callout">
+          <span class="ebook-verse-tag">TU ENFOQUE DE PROPÓSITO</span>
+          <p class="ebook-prose" style="margin:0;font-weight:600" id="purposeDetail"></p>
+        </div>
+
+        <div class="ebook-callout" style="border-left-color:var(--blue);background:#F0F6FF">
+          <span class="ebook-verse-tag" style="color:var(--blue)">CÓMO VIVIRLO EN LA PRÁCTICA</span>
+          <p class="ebook-prose" style="margin:0;font-weight:600" id="modeDetail"></p>
+        </div>
+      </div>
+
+      <!-- Capítulo 2: Los 5 Principios Bíblicos -->
+      <div class="ebook-section page-break">
+        <div class="ebook-label">CAPÍTULO II</div>
+        <h2 class="ebook-heading">Los 5 Principios de Marketing con Propósito</h2>
+        <p class="ebook-prose">
+          Estos cinco fundamentos, extraídos de la ponencia de Manuel Quijada, representan la columna vertebral de cualquier estrategia de comunicación que busque construir reputación duradera y paz mental:
+        </p>
+
+        <div class="ebook-card-item" style="margin-bottom:12px">
+          <b>01. EL PRINCIPIO DE CONOCER · PROVERBIOS 27:23</b>
+          <p style="font-style:italic;color:var(--purple);margin-bottom:4px">“Sé solícito en conocer el estado de tus ovejas, y mira con cuidado por tus rebaños.”</p>
+          <p>Investiga antes de publicar. No asumas lo que tu público necesita: pregúntales directamente, escucha sus palabras textuales en mensajes y comentarios, y resume en una página sus tres dolores más repetidos. Quien investiga no improvisa; sirve con precisión.</p>
+        </div>
+
+        <div class="ebook-card-item" style="margin-bottom:12px">
+          <b>02. EL PRINCIPIO DE ADAPTACIÓN · 1 CORINTIOS 9:22</b>
+          <p style="font-style:italic;color:var(--purple);margin-bottom:4px">“A todos me he hecho de todo, para que de todos modos salve a algunos.”</p>
+          <p>El propósito de tu mensaje nunca se negocia; el lenguaje y el formato se adaptan por completo. Habla como habla tu audiencia, no como habla tu ego. Elimina tecnicismos y palabras rebuscadas: la gente no busca admirar tu inteligencia, busca entender tu solución.</p>
+        </div>
+
+        <div class="ebook-card-item" style="margin-bottom:12px">
+          <b>03. EL PRINCIPIO DE COHERENCIA · MATEO 5:16</b>
+          <p style="font-style:italic;color:var(--purple);margin-bottom:4px">“Así alumbre vuestra luz delante de los hombres, para que vean vuestras buenas obras...”</p>
+          <p>Tu marca no es tu logotipo ni tus colores: tu marca es la promesa que cumples en la práctica diaria. Es cómo atiendes en privado, si entregas a tiempo y si tu producto honra lo que tu publicidad prometió. La coherencia genera diez veces más lealtad que cualquier presupuesto en pauta.</p>
+        </div>
+
+        <div class="ebook-card-item" style="margin-bottom:12px">
+          <b>04. EL PRINCIPIO DE REPUTACIÓN · PROVERBIOS 22:1</b>
+          <p style="font-style:italic;color:var(--purple);margin-bottom:4px">“De más estima es el buen nombre que las muchas riquezas...”</p>
+          <p>Mide la confianza real, no los números vacíos de vanidad. Un seguidor ganado con transparencia y servicio vale más que mil compras por impulso logradas con engaños. Prioriza siempre el buen nombre a largo plazo sobre el atajo rápido.</p>
+        </div>
+
+        <div class="ebook-card-item">
+          <b>05. EL PRINCIPIO DE MAYORDOMÍA · LUCAS 14:28</b>
+          <p style="font-style:italic;color:var(--purple);margin-bottom:4px">“¿Quién de vosotros, queriendo edificar una torre, no se sienta primero y calcula los gastos...?”</p>
+          <p>Planifica con sensatez tu tiempo, tu dinero y tu descanso. La mayordomía sabia incluye saber parar: quien no descansa termina quemado o perdiendo la pasión. Trabaja en bloques enfocados y permite que Dios sustente tu esfuerzo sin vivir esclavo de la pantalla.</p>
+        </div>
+      </div>
+
+      <!-- Capítulo 3: Metodología de Contenido Paso a Paso -->
+      <div class="ebook-section page-break">
+        <div class="ebook-label">CAPÍTULO III</div>
+        <h2 class="ebook-heading">Metodología Paso a Paso para Planificar tu Contenido</h2>
+        <p class="ebook-prose">
+          Para que tu mensaje sea constante y relevante semana tras semana, aplica este proceso estructurado de 6 etapas:
+        </p>
+
+        <div class="ebook-grid">
+          <div class="ebook-card-item">
+            <b>FASE 1: LA MINERÍA DE PREGUNTAS (ESCUCHA ACTIVA)</b>
+            <p>Abre una libreta de notas y recopila las dudas exactas que clientes o amigos te hacen. Habla con 5 personas reales. Cada duda genuina es el título de una publicación futura.</p>
           </div>
-          <div class="worksheet-item">
-            <b>2. A QUIÉN LE HABLO (MI PERSONA)</b>
-            <span id="sheetAudience">Personas que valoran la honestidad y buscan una solución real a su necesidad.</span>
+          <div class="ebook-card-item">
+            <b>FASE 2: DE LA DUDA A LA SOLUCIÓN (PRIMERO RESPONDER, DESPUÉS VENDER)</b>
+            <p>Agrupa las preguntas en 3 a 5 temas pilares. Responde cada pregunta directamente en los primeros 3 segundos. Cuando la gente comprueba que tu respuesta gratuita es valiosa, deseará naturalmente tu propuesta de pago.</p>
           </div>
-          <div class="worksheet-item">
-            <b>3. MI PROMESA CENTRAL</b>
-            <span id="sheetPromise">Entregar valor útil y comprobable antes de pedir cualquier compra.</span>
+          <div class="ebook-card-item">
+            <b>FASE 3: LA TRADUCCIÓN DEL MENSAJE (CERO EGO)</b>
+            <p>Aplica la prueba de sencillez: si una persona de 14 años o alguien ajeno a tu sector no comprende tu post en 15 segundos, reescríbelo. La claridad siempre vende más que la complejidad.</p>
           </div>
-          <div class="worksheet-item">
-            <b>4. MIS 3 PILARES DE PUBLICACIÓN</b>
-            <span>• <b>Pilar Educativo:</b> Responder las preguntas frecuentes de mi audiencia.<br>• <b>Pilar Coherencia:</b> Mostrar historias reales, procesos y cumplimiento.<br>• <b>Pilar Servicio:</b> Llamados a la acción claros para dar el siguiente paso.</span>
+          <div class="ebook-card-item">
+            <b>FASE 4: EL PUENTE HACIA LA EXPERIENCIA</b>
+            <p>Antes de publicar un llamado a la acción, asegúrate de tener preparado el canal de atención: enlace de WhatsApp listo, mensaje de bienvenida cordial y tiempos de respuesta ágiles.</p>
           </div>
-          <div class="worksheet-item">
-            <b>5. CANAL Y RITMO SEMANAL</b>
-            <span id="sheetCadence">1 o 2 publicaciones principales por semana + interacción diaria en mensajes.</span>
+          <div class="ebook-card-item">
+            <b>FASE 5: MÉTRICAS DE VALOR HUMANO</b>
+            <p>Deja de obsesionarte con el número de likes. Monitorea cuántas personas guardaron tu contenido, cuántos mensajes directos recibiste y cuántas conversaciones reales iniciaste esta semana.</p>
           </div>
-          <div class="worksheet-item">
+          <div class="ebook-card-item">
+            <b>FASE 6: EL SISTEMA DE BLOQUES Y DESCANSO (BATCHING)</b>
+            <p>No crees contenido todos los días. Reserva dos bloques de 45 minutos a la semana: uno para redactar y otro para programar. El resto del tiempo dedícalo a servir a tus clientes y descansar.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulo 4: Canvas de Contenido en 1 Página -->
+      <div class="ebook-section page-break">
+        <div class="ebook-label">CAPÍTULO IV</div>
+        <h2 class="ebook-heading">Tu Plan de Contenido en 1 Página</h2>
+        <p class="ebook-prose">
+          Este tablero sintetiza tu estrategia para los próximos 90 días, alineado a tu labor y área de interés:
+        </p>
+
+        <div class="ebook-grid">
+          <div class="ebook-card-item">
+            <b>1. OBJETIVO RECTOR EN 90 DÍAS</b>
+            <p id="canvasGoal">Construir una audiencia de confianza verificable y validar mi mensaje principal de forma medible.</p>
+          </div>
+          <div class="ebook-card-item">
+            <b>2. A QUIÉN LE HABLO (MI PERSONA IDEAL)</b>
+            <p id="canvasAudience">Personas que valoran la honestidad y buscan soluciones claras en mi área.</p>
+          </div>
+          <div class="ebook-card-item">
+            <b>3. MI PROMESA CENTRAL DE VALOR</b>
+            <p id="canvasPromise">Servir con excelencia desde mi profesión, entregando valor comprobable antes de pedir cualquier compra.</p>
+          </div>
+          <div class="ebook-card-item">
+            <b>4. MIS 3 PILARES DE CONTENIDO</b>
+            <p id="canvasPillars">
+              • <b>Pilar de Autoridad y Educación:</b> Resolver las preguntas frecuentes sobre mi especialidad.<br>
+              • <b>Pilar de Coherencia y Testimonio:</b> Mostrar procesos de trabajo reales, casos y cumplimiento.<br>
+              • <b>Pilar de Conexión y Oferta:</b> Invitaciones claras a dar el siguiente paso de compra o asesoría.
+            </p>
+          </div>
+          <div class="ebook-card-item">
+            <b>5. CANAL Y RITMO SEMANAL SOSTENIBLE</b>
+            <p id="canvasCadence">1 a 2 publicaciones principales por semana + atención ágil en mensajes privados.</p>
+          </div>
+          <div class="ebook-card-item">
             <b>6. MÉTRICA CLAVE DE ÉXITO</b>
-            <span>Número de conversaciones iniciadas por personas interesadas y tasa de recomendación.</span>
+            <p>Número de conversaciones iniciadas por personas interesadas y recomendaciones boca a boca.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- SECCIÓN: Los 5 Principios Bíblicos y Prácticos (Resumen Ejecutivo) -->
-    <div class="win">
-      <div class="bar">
-        <span class="dot" style="background:#6B2BFF"></span>
-        <span class="dot" style="background:#FFD60A"></span>
-        <span class="dot" style="background:#FF7A1A"></span>
-        <span class="path">resumen / 5_principios_marketing_con_propósito</span>
-      </div>
-      <div class="body">
-        <p class="eyebrow">RESUMEN DE LA PONENCIA</p>
-        <h2 style="margin-bottom:12px">Los 5 Principios de Marketing con Propósito</h2>
-        <table class="table-principles">
-          <thead>
-            <tr>
-              <th>Principio</th>
-              <th>Cita Bíblica</th>
-              <th>Regla de Oro Práctica</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>01. Conocer</b></td>
-              <td>Prov. 27:23</td>
-              <td>Investiga primero: pregunta, escucha, observa y resume.</td>
-            </tr>
-            <tr>
-              <td><b>02. Adaptar</b></td>
-              <td>1 Cor. 9:22</td>
-              <td>El mensaje no cambia; el lenguaje se adapta al público, no al ego.</td>
-            </tr>
-            <tr>
-              <td><b>03. Coherencia</b></td>
-              <td>Mateo 5:16</td>
-              <td>Tu marca se demuestra en lo que cumples en la práctica diaria.</td>
-            </tr>
-            <tr>
-              <td><b>04. Reputación</b></td>
-              <td>Prov. 22:1</td>
-              <td>El buen nombre vale más que mil compras. Mide confianza real.</td>
-            </tr>
-            <tr>
-              <td><b>05. Planificar</b></td>
-              <td>Lucas 14:28</td>
-              <td>Calcula objetivo, tiempo, presupuesto y reserva descanso.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <!-- Capítulo 5: Tu Plan de Despegue (7 Días) -->
+      <div class="ebook-section">
+        <div class="ebook-label">CAPÍTULO V</div>
+        <h2 class="ebook-heading">Ruta de Acción para tus Primeros 7 Días</h2>
+        <p class="ebook-prose">
+          No dejes que este conocimiento quede en la teoría. Esta es tu hoja de ruta paso a paso para esta semana:
+        </p>
 
-    <div class="row no-print">
-      <button class="btn btn-primary" id="download">⬇ Descargar mi plan</button>
-      <button class="btn btn-dark" id="print">Guardar como PDF</button>
-    </div>
-    <div class="row no-print">
-      <button class="btn btn-ghost" id="goVote">Ir a la votación en vivo</button>
-      <button class="btn btn-ghost" id="restart">Repetir</button>
+        <div class="ebook-grid" id="weekList"></div>
+
+        <div class="ebook-callout gold" style="margin-top:20px">
+          <span class="ebook-verse-tag">ESTRATEGIA PARA SUPERAR TU FRENO PRINCIPAL</span>
+          <p class="ebook-prose" style="margin:0;font-weight:600" id="barrierDetail"></p>
+        </div>
+
+        <div style="margin-top:24px">
+          <h3 style="font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px">Áreas de estudio recomendadas para tu perfil:</h3>
+          <ul id="studyList" style="margin:0 0 16px;padding-left:22px;color:#2E2850;line-height:1.6"></ul>
+          <h3 style="font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px">Herramientas esenciales:</h3>
+          <ul id="toolsList" style="margin:0;padding-left:22px;color:#2E2850;line-height:1.6"></ul>
+        </div>
+      </div>
+
+      <!-- Epílogo -->
+      <div class="ebook-section">
+        <div class="ebook-label">EPÍLOGO & BENDICIÓN</div>
+        <h2 class="ebook-heading">Camina con Propósito</h2>
+        <p class="ebook-prose">
+          Hacer marketing no es un fin en sí mismo; es un vehículo para amplificar el llamado que Dios ha puesto en tus manos. Cuando trabajas con excelencia, honestidad y amor por el prójimo, tu negocio o proyecto no solo prospera económicamente: se convierte en un faro de luz e integridad en medio de la sociedad.
+        </p>
+        <div class="ebook-callout">
+          <span class="ebook-verse-tag">ROMANOS 10:15</span>
+          <p class="ebook-quote">“¡Cuán hermosos son los pies de los que anuncian buenas nuevas, de los que traen gratas nuevas de la paz!”</p>
+        </div>
+        <p class="ebook-prose" style="font-weight:700;color:var(--purple);margin-top:14px">
+          Manuel Quijada · Sumas Pro Agency<br>
+          <span style="font-size:14px;color:var(--ink-2);font-weight:400">Sigamos conectados en Instagram: <b>@sumaspro</b></span>
+        </p>
+      </div>
+
+      <!-- Botones de Acción / Descarga -->
+      <div class="action-row no-print">
+        <button class="btn btn-purple" id="download">📕 Descargar E-Book (.txt / .md)</button>
+        <button class="btn btn-dark" id="print">🖨️ Guardar como PDF (E-Book)</button>
+      </div>
+      <div class="action-row no-print" style="margin-top:10px">
+        <button class="btn btn-ghost" id="goVote">Ir a la votación en vivo →</button>
+        <button class="btn btn-ghost" id="restart">Repetir diagnóstico</button>
+      </div>
+
     </div>
   </section>
 </div>
@@ -500,44 +770,80 @@ const QUESTIONS = [
 ];
 
 const PROFILES = {
-  creativo:{ name:"Creador visual",
-    intro:"Tu fuerza está en crear piezas que se ven bien y que la gente recuerda. Tu reto es convertir la creatividad en un mensaje con objetivo.",
-    steps:["Elige una sola promesa que tu marca o proyecto cumpla.","Crea tres piezas visuales a partir de esa promesa, con un mismo estilo.","Publica una vez por semana y anota qué piezas generan respuesta."],
-    study:["Dirección de arte y paleta de colores","Storytelling visual","Plan de una página para ordenar tu contenido"],
-    tools:["Canva","Google Trends","Bloc de notas para ideas"] },
-  comunicador:{ name:"Comunicador con mensaje",
-    intro:"Tu fuerza está en explicar bien las cosas y conectar con la gente a través de la palabra. Tu reto es llegar a las personas correctas, no solo a cualquiera.",
-    steps:["Define a una persona concreta a la que le hablas.","Escribe tres mensajes que resuelvan una duda real de esa persona.","Responde comentarios y preguntas durante las primeras cuatro semanas."],
-    study:["Redacción persuasiva con honestidad","Investigación de audiencia","Escucha activa en redes"],
-    tools:["Google Trends","Notas de voz para guiones","Calendario simple"] },
-  estratega:{ name:"Estratega",
-    intro:"Tu fuerza está en ordenar, planear y medir. Tu reto es no quedarte solo en los planes y empezar a publicar con constancia.",
-    steps:["Escribe un objetivo medible para los próximos 90 días.","Arma un calendario de publicaciones para cuatro semanas.","Revisa cada semana tres números: alcance, interacción y conversiones."],
-    study:["Métricas que sí importan","Presupuesto y planificación","Análisis de competencia"],
-    tools:["Hoja de cálculo para métricas","Trello o Notion para el calendario","Analítica nativa de tus redes"] },
-  servidor:{ name:"Servidor de personas",
-    intro:"Tu fuerza está en acompañar y cuidar a las personas. Tu reto es que ese cuidado llegue también a quienes todavía no te conocen.",
-    steps:["Anota las preguntas que más te hacen las personas que ayudas.","Convierte cada pregunta en una publicación útil y clara.","Invita a una persona a la vez a dar el siguiente paso con tu ayuda."],
-    study:["Marketing de confianza y referidos","Comunidad y seguimiento","Honestidad y transparencia en el mensaje"],
-    tools:["Grupo de mensajería para comunidad","Formulario para preguntas","Lista de contactos ordenada"] },
+  creativo:{
+    name:"Creador Visual & Narrador",
+    intro:"Tu fortaleza radica en la intuición estética, la sensibilidad artística y la habilidad de plasmar ideas en imágenes que la gente recuerda. Ves lo que otros no logran imaginar y tu contenido atrapa la mirada al instante.",
+    risk:"Tu mayor trampa suele ser la sobreproducción: enamorarte del diseño visual y posponer la publicación o descuidar el mensaje concreto de negocio.",
+    mission:"Canalizar tu don creativo hacia una sola promesa clara y verificable. Menos adornos y más coherencia.",
+    steps:[
+      "Define una sola promesa central que tu marca o proyecto cumpla sin falta.",
+      "Diseña una serie de tres publicaciones bajo una misma identidad visual que resuelvan dudas reales.",
+      "Publica semanalmente y mide qué formatos generan conversaciones y agradecimiento de clientes."
+    ],
+    study:["Dirección de arte con propósito y psicología del color","Narrativa y storytelling visual aplicados a negocios","Estructura de guiones cortos para video"],
+    tools:["Canva o Illustrator","CapCut o Premiere","Bloc de ideas visuales / Notion"]
+  },
+  comunicador:{
+    name:"Comunicador con Mensaje & Formador",
+    intro:"Tu fortaleza radica en el poder de la palabra, la oratoria y la capacidad de transmitir ideas complejas con sencillez y empatía. Conectas de corazón a corazón porque la gente siente la verdad en lo que dices.",
+    risk:"Tu mayor tentación es hablarle a la multitud equivocada o caer en la trampa del ego, usando tecnicismos para sonar inteligente en lugar de hacerse entender.",
+    mission:"Aprender a escuchar antes de predicar. El buen comunicador se hace débil a los débiles para ganar a todos.",
+    steps:[
+      "Identifica a una persona concreta con nombre y necesidad real a la que le vas a hablar.",
+      "Escribe y graba tres mensajes directos que respondan a las dudas más urgentes de tu público.",
+      "Dedica 15 minutos diarios a responder cada comentario y mensaje privado con calidez humana."
+    ],
+    study:["Redacción persuasiva ética (Copywriting honesto)","Investigación cualitativa y escucha de audiencias","Oratoria y lenguaje corporal frente a cámara"],
+    tools:["Google Trends para investigar dudas","Notas de voz para bocetos de guiones","Calendario editorial simple"]
+  },
+  estratega:{
+    name:"Estratega & Mayordomo de Sistemas",
+    intro:"Tu fortaleza radica en el orden, la visión panorámica y la capacidad de estructurar procesos sostenibles. Ves las conexiones lógicas donde otros solo ven caos y tienes vocación de mayordomía con los recursos.",
+    risk:"Tu mayor desafío es la 'parálisis por análisis': diseñar planes tan perfectos en papel que pospones el momento de lanzar y exponerte al mercado real.",
+    mission:"Abrazar la acción imperfecta. Un plan sencillo ejecutado con constancia supera a cualquier estrategia compleja archivada en una gaveta.",
+    steps:[
+      "Fija un único objetivo medible a 90 días (conversaciones, clientes o suscriptores).",
+      "Organiza un calendario ágil de 4 semanas con bloques fijos para planear, crear y descansar.",
+      "Revisa cada viernes solo tres métricas rectoras: alcance calificado, interacción y conversaciones reales."
+    ],
+    study:["Métricas de valor humano vs. métricas de vanidad","Embudos de confianza y mayordomía del tiempo","Gestión y dirección de equipos creativos"],
+    tools:["Hoja de cálculo para métricas clave","Trello o Notion para flujo de trabajo","Panel de analítica nativa"]
+  },
+  servidor:{
+    name:"Servidor de Personas & Constructor de Comunidad",
+    intro:"Tu fortaleza radica en la vocación genuina de servicio, el amor por el prójimo y la atención personalizada. Generas una confianza y lealtad que ninguna campaña de publicidad pagada puede comprar.",
+    risk:"Tu mayor trampa suele ser el pudor comercial: sentir culpa al cobrar por tu valor o creer que promocionar tu trabajo contradice el espíritu de servicio.",
+    mission:"Comprender que el marketing ético es la forma más honesta de hacer que tu ayuda llegue a quienes hoy la necesitan desesperadamente.",
+    steps:[
+      "Anota las 10 preguntas que más te han hecho las personas a las que has ayudado recientemente.",
+      "Transforma cada pregunta en una guía o respuesta pública generosa y fácil de aplicar.",
+      "Invita con naturalidad a las personas interesadas a dar el siguiente paso de trabajo conjunto contigo."
+    ],
+    study:["Marketing de confianza y programas de referidos","Construcción y facilitación de comunidades vivas","Atención al cliente con calidez y excelencia"],
+    tools:["Canal de mensajería (WhatsApp Business o Telegram)","Formularios para recopilar preguntas","Libreta ordenada de contactos y seguimiento"]
+  }
 };
+
 const PURPOSE = {
-  yo:"Tu marketing servirá para crecer tu propio proyecto o marca. Enfócate en que tu oferta sea clara y que la gente entienda en qué le ayudas.",
-  otros:"Tu marketing servirá para llevar un mensaje a otras personas. Enfócate en la necesidad de quienes escuchan y en que el mensaje sea verdadero y útil.",
-  mixto:"Tu marketing servirá para tu proyecto y también para otras personas. Separa tu tiempo: una parte para crecer y otra para servir.",
+  yo:"Tu labor de marketing servirá primordialmente para hacer crecer tu propio negocio o proyecto. El secreto aquí es la claridad de tu oferta: que cualquier persona comprenda en 10 segundos en qué le ayudas, cómo lo haces y por qué puede confiar en ti.",
+  otros:"Tu labor de marketing servirá para levantar causas, ministerios o proyectos de otras personas. El secreto aquí es el desprendimiento: poner siempre la dignidad y la necesidad del oyente por encima de cualquier interés institucional.",
+  mixto:"Tu labor de marketing tendrá un balance entre tu proyecto personal y el servicio a terceros. El secreto aquí es la separación del tiempo: bloques definidos para producir ingresos y bloques sagrados para servir con gratuidad sin quemarte."
 };
+
 const MODE = {
-  hobby:"Como hobby, disfruta el proceso. Publica a tu ritmo, sin metas de ingresos, y deja que tu contenido crezca de forma natural.",
-  profesional:"Como profesión, trátalo como un trabajo: horario fijo, metas mensuales y revisión de resultados.",
-  emprendedor:"Como emprendimiento, combina creatividad con números. Define una oferta, un precio y una forma de medir ventas desde el principio.",
+  hobby:"Vívelo como un espacio de disfrute y desarrollo personal. Publica a tu propio ritmo sin la presión de métricas de ingresos, dejando que tu mensaje madure orgánicamente.",
+  profesional:"Vívelo con el rigor y la excelencia de una carrera profesional: horarios de producción definidos, compromisos de calidad innegociables y revisión semanal de resultados.",
+  emprendedor:"Vívelo como un modelo de negocio sostenible: combina la creatividad con la disciplina financiera. Define una oferta clara, precios justos y mide la conversión en cada etapa."
 };
+
 const FRENO = {
-  empezar:{ t:"Si no sabes por dónde empezar", tip:"Empieza con el plan de una página: objetivo, persona, mensaje, canal y medición. Llénalo en 30 minutos y no lo cambies durante un mes." },
-  miedo:{ t:"Si te da miedo exponerte", tip:"Empieza compartiendo con diez personas de confianza. Recibir retroalimentación pequeña te dará seguridad para crecer." },
-  tiempo:{ t:"Si te falta tiempo", tip:"Trabaja en bloques de 45 minutos, dos veces por semana. Un calendario corto vale más que un plan perfecto que nunca se cumple." },
-  recursos:{ t:"Si te faltan herramientas", tip:"Puedes empezar con tu celular y herramientas gratuitas. Lo que importa es el mensaje y la constancia, no el equipo." },
+  empezar:"Para superar la incertidumbre de no saber por dónde empezar: aplica la regla de la página única. No intentes construir un imperio hoy; escribe tu objetivo, tu persona y tu mensaje en una sola hoja, y no la cambies durante 30 días.",
+  miedo:"Para superar el miedo a exponerte o al juicio ajeno: cambia el foco de atención. La timidez suele ser el ego preocupado por sí mismo. Cuando te concentras en la persona que necesita tu ayuda, el miedo se transforma en compasión y valentía.",
+  tiempo:"Para superar la falta de tiempo: desmitifica la idea de que necesitas horas libres. El contenido se produce en bloques cerrados de 45 minutos dos veces por semana (Batching). Quien no planifica su tiempo, termina trabajando para las urgencias de otros.",
+  recursos:"Para superar la falta de herramientas o presupuesto: recuerda el principio de la mayordomía: ¿qué tienes en tu mano? Con un teléfono inteligente y un mensaje honesto puedes construir una comunidad más leal que una multinacional con millones en producción."
 };
-const TAGS = { yo:"PARA MI MARCA", otros:"PARA OTRAS PERSONAS", mixto:"PARA MÍ Y PARA OTROS", hobby:"HOBBY", profesional:"PROFESIONAL", emprendedor:"EMPRENDEDOR" };
+
+const TAGS = { yo:"PARA MI PROYECTO", otros:"PARA OTRAS PERSONAS", mixto:"PROYECTO & SERVICIO", hobby:"MODO HOBBY", profesional:"MODO PROFESIONAL", emprendedor:"MODO EMPRENDEDOR" };
 
 let answers = [], current = 0, plan = null;
 let userLead = null;
@@ -549,7 +855,6 @@ function handleQuizCompletion() {
   if (userLead && userLead.nombre && userLead.email) {
     renderResult();
   } else {
-    // Si ya había llenado campos antes, pre-llenarlos
     if (userLead) {
       if (userLead.nombre) $("lead_nombre").value = userLead.nombre;
       if (userLead.telefono) $("lead_telefono").value = userLead.telefono;
@@ -598,153 +903,273 @@ function score(){
 }
 
 function weekPlan(t){
-  if (t === "poco") return ["Lee una guía corta sobre el plan de una página (30 min).","Escribe tu plan de una página.","Publica una sola pieza o mensaje."];
-  if (t === "medio") return ["Escribe tu plan de una página y tu lista de 10 preguntas de tu público.","Crea y publica dos piezas (una por bloque de 45 min).","Revisa qué respondió la gente y anótalo."];
-  return ["Define objetivo, persona y canal principal.","Arma un calendario de 4 publicaciones y produce 2 de ellas.","Publica, responde comentarios y revisa tres métricas el viernes."];
-}
-
-function fill(id, items){
-  const ul = $(id); ul.innerHTML = "";
-  items.forEach((t,i) => { const li = document.createElement("li"); const b = document.createElement("b"); b.textContent = String(i+1).padStart(2,"0"); const s = document.createElement("span"); s.textContent = t; li.append(b,s); ul.appendChild(li); });
+  if (t === "poco") return [
+    "Día 1-2: Redacta tu plan de 1 página definiendo tu promesa y tu público.",
+    "Día 3-4: Haz 3 preguntas directas a clientes o seguidores sobre sus dudas.",
+    "Día 5-7: Publica una respuesta clara, agradece a quienes comenten y descansa."
+  ];
+  if (t === "medio") return [
+    "Día 1-2: Escribe tu plan de 1 página y lista 5 preguntas frecuentes de clientes.",
+    "Día 3-4: Produce 2 piezas de contenido educativo en un bloque de 45 minutos.",
+    "Día 5-7: Publica, interactúa en mensajes directos y analiza qué tema conectó mejor."
+  ];
+  return [
+    "Día 1-2: Diseña tu plan de 90 días, define tus 3 pilares y prepara tu enlace de contacto.",
+    "Día 3-4: Produce un lote de 3 a 4 publicaciones organizadas en bloques de tiempo.",
+    "Día 5-7: Lanza las publicaciones, haz seguimiento de conversaciones y haz balance el viernes."
+  ];
 }
 
 function renderResult(){
   const { key, info } = score(); const p = PROFILES[key];
-  if (userLead && userLead.nombre) {
-    const firstName = userLead.nombre.trim().split(/\s+/)[0];
-    $("profileIntro").textContent = `¡Hola, ${firstName}! ${p.intro}`;
-    $("printLeadTitle").textContent = `Plan Personal y Guía de Contenido · ${userLead.nombre}`;
-    const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
-    $("printLeadSubtitle").textContent = `Dedicación: ${userLead.dedicacion || "Emprendedor/Profesional"} · Interés: ${userLead.tema_interes || "Marketing"} · Perfil: ${p.name} · Fecha: ${fecha}`;
-    $("sheetAudience").textContent = `Personas que necesitan soluciones en ${userLead.tema_interes ? userLead.tema_interes.toLowerCase() : "mi área"} y buscan honestidad.`;
-    $("sheetPromise").textContent = `Servir con excelencia desde mi rol (${userLead.dedicacion || "mi proyecto"}), cumpliendo lo que prometo.`;
-  } else {
-    $("profileIntro").textContent = p.intro;
-  }
-  $("profileName").textContent = p.name;
-  $("tags").innerHTML = "";
-  [info.para, info.modo].forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = TAGS[t]; $("tags").appendChild(s); });
-  if (userLead && userLead.tema_interes) {
-    const s = document.createElement("span"); s.className = "tag"; s.style.background = "#FF7A1A"; s.style.color = "#FFFDF9";
-    s.textContent = "INTERÉS: " + userLead.tema_interes.toUpperCase();
-    $("tags").appendChild(s);
-  }
-  $("purposeText").textContent = PURPOSE[info.para];
-  $("modeText").textContent = MODE[info.modo];
+  const nombre = (userLead && userLead.nombre) ? userLead.nombre.trim() : "Participante";
+  const firstName = nombre.split(/\s+/)[0];
+  const dedicacion = (userLead && userLead.dedicacion) ? userLead.dedicacion.trim() : "Profesional / Emprendedor";
+  const tema = (userLead && userLead.tema_interes) ? userLead.tema_interes : "Estrategia y contenidos";
+  const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+
+  $("coverLeadName").textContent = nombre;
+  $("coverLeadMeta").textContent = `${dedicacion} · Interés: ${tema} · Fecha: ${fecha}`;
+  $("prologueGreeting").textContent = `¡Hola, ${firstName}! Me alegra profundamente que hayas compartido este espacio en Ador-Arte 2026. Este e-book ha sido adaptado especialmente para ti, tomando en cuenta tu vocación como ${dedicacion} y tu perfil de ${p.name}.`;
+
+  $("badgeProfile").textContent = p.name.toUpperCase();
+  $("profileDetail").textContent = `${p.intro} ${p.risk} Tu misión es: ${p.mission}`;
+  $("purposeDetail").textContent = PURPOSE[info.para];
+  $("modeDetail").textContent = MODE[info.modo];
+
+  $("canvasAudience").textContent = `Personas y clientes que necesitan soluciones confiables en ${tema.toLowerCase()} y valoran la honestidad.`;
+  $("canvasPromise").textContent = `Servir con excelencia desde mi rol como ${dedicacion}, entregando valor útil antes de pedir cualquier compra.`;
+
+  // Lista de 7 días
   const week = weekPlan(info.tiempo);
-  fill("steps", p.steps); fill("week", week); fill("study", p.study); fill("tools", p.tools);
-  $("barrierText").textContent = FRENO[info.freno].t + ". " + FRENO[info.freno].tip;
-  plan = { p, info, week };
+  const weekBox = $("weekList");
+  weekBox.innerHTML = "";
+  week.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "ebook-card-item";
+    div.innerHTML = `<b>PASO ${idx + 1} DE LA SEMANA</b><p>${item}</p>`;
+    weekBox.appendChild(div);
+  });
+
+  $("barrierDetail").textContent = FRENO[info.freno];
+
+  // Listas de estudio y herramientas
+  const sList = $("studyList"); sList.innerHTML = "";
+  p.study.forEach(s => { const li = document.createElement("li"); li.textContent = s; sList.appendChild(li); });
+  const tList = $("toolsList"); tList.innerHTML = "";
+  p.tools.forEach(t => { const li = document.createElement("li"); li.textContent = t; tList.appendChild(li); });
+
+  plan = { p, info, week, nombre, firstName, dedicacion, tema, fecha };
   show("result");
   enviar("diagnostico", "/api/diagnostico", { deviceId: DEVICE, perfil: key });
 }
 
+/* ==========================================================================
+   GENERADOR DEL E-BOOK COMPLETO EN FORMATO TEXTO / MARKDOWN
+   ========================================================================== */
 function planTexto(){
-  const { p, info, week } = plan;
-  const L = (a) => a.map((s,i) => "  " + (i+1) + ". " + s).join("\n");
-  const nombre = (userLead && userLead.nombre) ? userLead.nombre : "Asistente";
-  const firstName = nombre.trim().split(/\s+/)[0];
-  const lineas = [
-    "===========================================================",
-    "  MARKETING CON PROPÓSITO · DOSSIER PERSONAL Y GUÍA",
-    "  Ponencia impartida por Manuel Quijada · SUMAS PRO",
-    "===========================================================", "",
-    `¡Hola, ${firstName}!`,
-    "Este es tu plan de marketing personalizado y la guía compacta",
-    "con todos los principios clave enseñados en la presentación.", "",
-    "-----------------------------------------------------------",
-    "1. FICHA DEL PARTICIPANTE",
-    "-----------------------------------------------------------",
-    "  Nombre: " + nombre,
-    (userLead && userLead.dedicacion ? "  Dedicación: " + userLead.dedicacion : ""),
-    (userLead && userLead.tema_interes ? "  Tema de interés principal: " + userLead.tema_interes : ""),
-    "  Perfil Diagnosticado: " + p.name,
-    "  Enfoque: " + TAGS[info.para] + " · " + TAGS[info.modo], "",
-    "  Diagnóstico:",
-    "  " + p.intro, "",
-    "-----------------------------------------------------------",
-    "2. TU PROPÓSITO Y FORMA DE VIVIRLO",
-    "-----------------------------------------------------------",
-    "  Tu propósito:",
-    "  " + PURPOSE[info.para], "",
-    "  Cómo lo vas a vivir:",
-    "  " + MODE[info.modo], "",
-    "-----------------------------------------------------------",
-    "3. QUÉ HACER AHORA (PASOS CLAVE)",
-    "-----------------------------------------------------------",
-    L(p.steps), "",
-    "-----------------------------------------------------------",
-    "4. PLAN DE ACCIÓN PARA TU PRIMERA SEMANA",
-    "-----------------------------------------------------------",
-    L(week), "",
-    "-----------------------------------------------------------",
-    "5. QUÉ ESTUDIAR Y HERRAMIENTAS RECOMENDADAS",
-    "-----------------------------------------------------------",
-    "  Áreas de estudio:",
-    L(p.study), "",
-    "  Herramientas:",
-    L(p.tools), "",
-    "-----------------------------------------------------------",
-    "6. PARA SUPERAR TU FRENO PRINCIPAL",
-    "-----------------------------------------------------------",
-    "  " + FRENO[info.freno].t + ": " + FRENO[info.freno].tip, "",
-    "===========================================================",
-    "  GUÍA: PASO A PASO PARA PLANIFICAR TU CONTENIDO",
-    "  (Metodología extraída de los slides de Manuel Quijada)",
-    "===========================================================", "",
-    "PASO 1: INVESTIGA ANTES DE PUBLICAR (Proverbios 27:23)",
-    "  • 'Sé solícito en conocer el estado de tus ovejas'.",
-    "  • Pregunta con encuestas simples o habla con 5 clientes reales.",
-    "  • Escucha en comentarios y mensajes anotando sus palabras exactas.",
-    "  • Observa qué contenidos generan conversación y agradecimiento.",
-    "  • Resume en una página las 3 necesidades más repetidas.", "",
-    "PASO 2: RESPONDE A PREGUNTAS REALES (Primero la respuesta, después la oferta)",
-    "  • Recoge las dudas tal cual llegan por WhatsApp o redes.",
-    "  • Agrúpalas en 3 a 5 temas pilares.",
-    "  • Responde cada duda directamente; luego invita al siguiente paso.",
-    "  • Si la gente vuelve a preguntar lo mismo, simplifica tu mensaje.", "",
-    "PASO 3: ADAPTA EL MENSAJE, NO CAMBIES LA VERDAD (1 Corintios 9:22)",
-    "  • 'A todos me he hecho de todo': el propósito es firme, el canal flexible.",
-    "  • Habla como habla tu público, no como habla tu ego.",
-    "  • Quita tecnicismos y autoelogios: la gente busca soluciones comprensibles.", "",
-    "PASO 4: COHERENCIA: TU MARCA SE VE EN LO QUE CUMPLES (Mateo 5:16)",
-    "  • 'Así brille vuestra luz delante de los hombres'.",
-    "  • Tu marca se construye en cómo atiendes y entregas lo prometido.",
-    "  • La coherencia genera más fidelidad que cualquier presupuesto publicitario.", "",
-    "PASO 5: MIDE LA CONFIANZA Y LA REPUTACIÓN (Proverbios 22:1)",
-    "  • 'De más estima es el buen nombre que las muchas riquezas'.",
-    "  • Mide cuántas personas vuelven y recomiendan tu trabajo.",
-    "  • Prioriza la confianza a largo plazo sobre los likes vacíos.", "",
-    "PASO 6: PLANIFICA, ADMINISTRA Y DESCANSA (Lucas 14:28)",
-    "  • 'Calcula primero los gastos': define meta medible a 90 días.",
-    "  • Reserva bloques fijos en tu calendario para planear, crear y responder.",
-    "  • Programa pausas y descansos: administrar bien también es saber parar.", "",
-    "===========================================================",
-    "  PLANTILLA: TU PLAN DE CONTENIDO EN 1 PÁGINA",
-    "===========================================================",
-    "  1. Objetivo en 90 días: Construir audiencia de confianza medible.",
-    "  2. A quién le hablo: Personas con necesidades reales en mi sector.",
-    "  3. Mi promesa central: Cumplir con excelencia lo que ofrezco.",
-    "  4. Mis 3 Pilares:",
-    "     • Pilar Educativo: Responder dudas frecuentes de clientes.",
-    "     • Pilar Coherencia: Mostrar procesos, casos y servicio real.",
-    "     • Pilar Oferta: Invitación clara a dar el siguiente paso.",
-    "  5. Ritmo: 1-2 publicaciones semanales de alto valor + mensajes.",
-    "  6. Métrica clave: Conversaciones reales y recomendaciones.", "",
-    "===========================================================",
-    "  LOS 5 PRINCIPIOS BÍBLICOS DEL MARKETING CON PROPÓSITO",
-    "===========================================================",
-    "  01. Conocer      | Prov. 27:23 | Investiga antes de publicar.",
-    "  02. Adaptar      | 1 Cor. 9:22 | Habla en el idioma de tu público.",
-    "  03. Coherencia   | Mateo 5:16  | Tu marca se ve en lo que cumples.",
-    "  04. Reputación   | Prov. 22:1  | Más vale buen nombre que riquezas.",
-    "  05. Planificar   | Lucas 14:28 | Calcula presupuesto, tiempo y descanso.", "",
-    "___________________________________________________________",
-    "Taller Marketing con Propósito · Manuel Quijada · SUMAS PRO"
-  ].filter(Boolean);
-  return lineas.join("\n");
+  const { p, info, week, nombre, firstName, dedicacion, tema, fecha } = plan;
+  const L = (arr) => arr.map((item, i) => `   ${i + 1}. ${item}`).join("\n");
+
+  return `# ================================================================================
+#                     M A R K E T I N G   C O N   P R O P Ó S I T O
+#                 Guía Estratégica, Metodología y Plan de Acción
+# ================================================================================
+#                        Por Manuel Quijada · SUMAS PRO
+#                    Taller Oficial Ador-Arte 2026 · Ciudad Bolívar
+# ================================================================================
+
+EJEMPLAR PERSONALIZADO PARA:
+  • Participante: ${nombre}
+  • Ocupación / Dedicación: ${dedicacion}
+  • Enfoque de Mayor Interés: ${tema}
+  • Perfil Diagnosticado: ${p.name}
+  • Modalidad: ${TAGS[info.modo]} (${TAGS[info.para]})
+  • Fecha de Emisión: ${fecha}
+
+================================================================================
+PRÓLOGO: POR QUÉ ESTAMOS AQUÍ
+================================================================================
+
+¡Hola, ${firstName}!
+
+Me alegra profundamente que hayas compartido este espacio conmigo en Ador-Arte 2026.
+Vivimos en una época saturada de ruido digital, donde miles de marcas compiten
+ferozmente por segundos de atención vacía, obsesionadas con el próximo truco del
+algoritmo o la métrica de vanidad más reciente.
+
+Sin embargo, el verdadero marketing —el que trasciende, el que construye empresas
+duraderas y el que honra a Dios en el mercado— no nace de la manipulación ni de la
+prisa; nace del propósito. Nace de entender que detrás de cada pantalla, detrás de
+cada estadística y detrás de cada venta, hay un ser humano real con anhelos,
+dificultades y preguntas que merecen respuestas honestas.
+
+Este libro de trabajo no es una plantilla genérica. Es un dossier estratégico
+concebido para ti, considerando tu perfil como ${p.name}, tu labor como ${dedicacion}
+y tu deseo de profundizar en ${tema}. Léelo con calma, subraya sus principios y,
+sobre todo, atrévete a llevarlo a la práctica esta misma semana.
+
+"No publiques para alimentar tu ego ni para impresionar a tus colegas;
+publica para servir la necesidad real de quien te escucha."
+
+================================================================================
+CAPÍTULO I: TU PERFIL ESTRATÉGICO Y TU PROPÓSITO
+================================================================================
+
+1. DIAGNÓSTICO DE TU PERFIL: ${p.name.toUpperCase()}
+   ${p.intro}
+
+   • Tu mayor riesgo o trampa:
+     ${p.risk}
+
+   • Tu misión estratégica:
+     ${p.mission}
+
+2. TU ENFOQUE DE PROPÓSITO
+   ${PURPOSE[info.para]}
+
+3. TU MODALIDAD DE OPERACIÓN
+   ${MODE[info.modo]}
+
+================================================================================
+CAPÍTULO II: LOS 5 PRINCIPIOS BÍBLICOS DEL MARKETING CON PROPÓSITO
+================================================================================
+
+01. EL PRINCIPIO DE CONOCER (Proverbios 27:23)
+    "Sé solícito en conocer el estado de tus ovejas, y mira con cuidado por tus rebaños."
+    Reflexión:
+    Investiga antes de publicar. No asumas lo que tu público necesita: pregúntales
+    directamente con encuestas simples, escucha sus palabras textuales en mensajes
+    y resume en una página sus tres dolores más repetidos. Quien investiga no
+    improvisa; sirve con precisión y amor.
+
+02. EL PRINCIPIO DE ADAPTACIÓN (1 Corintios 9:22)
+    "A todos me he hecho de todo, para que de todos modos salve a algunos."
+    Reflexión:
+    El propósito de tu mensaje nunca se negocia; el lenguaje y el formato se adaptan
+    por completo al oyente. Habla como habla tu audiencia, no como habla tu ego.
+    Elimina tecnicismos y palabras rebuscadas: la gente no busca admirar tu intelecto,
+    busca entender tu solución.
+
+03. EL PRINCIPIO DE COHERENCIA (Mateo 5:16)
+    "Así alumbre vuestra luz delante de los hombres, para que vean vuestras buenas obras..."
+    Reflexión:
+    Tu marca no es un logotipo bonito ni una tipografía: tu marca es la promesa que
+    cumples en la práctica diaria. Es cómo atiendes en privado, si entregas a tiempo
+    y si tu producto honra lo que tu publicidad prometió. La coherencia genera diez
+    veces más lealtad que cualquier presupuesto publicitario.
+
+04. EL PRINCIPIO DE REPUTACIÓN (Proverbios 22:1)
+    "De más estima es el buen nombre que las muchas riquezas..."
+    Reflexión:
+    Mide la confianza real, no los números vacíos de vanidad. Un seguidor ganado con
+    transparencia y servicio vale más que mil compras por impulso logradas con engaños.
+    Prioriza siempre el buen nombre a largo plazo sobre el atajo rápido.
+
+05. EL PRINCIPIO DE MAYORDOMÍA (Lucas 14:28)
+    "¿Quién de vosotros, queriendo edificar una torre, no se sienta primero y calcula los gastos...?"
+    Reflexión:
+    Planifica con sensatez tu tiempo, tu dinero y tu descanso. La mayordomía sabia
+    incluye saber parar: quien no descansa termina quemado o perdiendo la pasión.
+    Trabaja en bloques enfocados y permite que Dios sustente tu esfuerzo sin vivir
+    esclavo de la pantalla.
+
+================================================================================
+CAPÍTULO III: METODOLOGÍA PASO A PASO PARA PLANIFICAR TU CONTENIDO
+================================================================================
+
+FASE 1: LA MINERÍA DE PREGUNTAS (ESCUCHA ACTIVA)
+   Abre una libreta de notas y recopila las dudas exactas que clientes o amigos te
+   hacen. Habla con 5 personas reales. Cada duda genuina es el título de una
+   publicación futura.
+
+FASE 2: DE LA DUDA A LA SOLUCIÓN (PRIMERO LA RESPUESTA, DESPUÉS LA OFERTA)
+   Agrupa las preguntas en 3 a 5 temas pilares. Responde cada pregunta directamente
+   en los primeros 3 segundos. Cuando la gente comprueba que tu respuesta gratuita
+   es valiosa, deseará naturalmente tu propuesta de pago.
+
+FASE 3: LA TRADUCCIÓN DEL MENSAJE (CERO EGO)
+   Aplica la prueba de sencillez: si una persona de 14 años o alguien ajeno a tu
+   sector no comprende tu post en 15 segundos, reescríbelo. La claridad siempre vende
+   más que la complejidad.
+
+FASE 4: EL PUENTE HACIA LA EXPERIENCIA
+   Antes de publicar un llamado a la acción, asegúrate de tener preparado el canal
+   de atención: enlace de WhatsApp listo, mensaje de bienvenida cordial y tiempos
+   de respuesta ágiles.
+
+FASE 5: MÉTRICAS DE VALOR HUMANO
+   Deja de obsesionarte con el número de likes. Monitorea cuántas personas guardaron
+   tu contenido, cuántos mensajes directos recibiste y cuántas conversaciones reales
+   iniciaste esta semana.
+
+FASE 6: EL SISTEMA DE BLOQUES Y DESCANSO (BATCHING)
+   No crees contenido todos los días. Reserva dos bloques de 45 minutos a la semana:
+   uno para redactar y otro para programar. El resto del tiempo dedícalo a servir
+   a tus clientes y descansar.
+
+================================================================================
+CAPÍTULO IV: TU CANVAS DE CONTENIDO EN 1 PÁGINA (HOJA DE RUTA A 90 DÍAS)
+================================================================================
+
+1. OBJETIVO EN 90 DÍAS:
+   Construir una audiencia de confianza verificable y validar mi mensaje principal.
+
+2. A QUIÉN LE HABLO:
+   Personas y clientes que necesitan soluciones confiables en ${tema.toLowerCase()}
+   y valoran la honestidad en el trato.
+
+3. MI PROMESA CENTRAL DE VALOR:
+   Servir con excelencia desde mi rol como ${dedicacion}, entregando valor útil
+   antes de pedir cualquier compra.
+
+4. MIS 3 PILARES DE CONTENIDO:
+   • Pilar de Autoridad y Educación: Resolver dudas frecuentes sobre ${tema}.
+   • Pilar de Coherencia y Testimonio: Mostrar procesos de trabajo, casos y cumplimiento.
+   • Pilar de Conexión y Oferta: Invitaciones claras a dar el siguiente paso.
+
+5. RITMO SEMANAL SOSTENIBLE:
+   1 a 2 publicaciones principales por semana + atención ágil en mensajes privados.
+
+6. MÉTRICA CLAVE DE ÉXITO:
+   Número de conversaciones iniciadas por personas interesadas y recomendaciones.
+
+================================================================================
+CAPÍTULO V: RUTA DE ACCIÓN PARA TUS PRIMEROS 7 DÍAS
+================================================================================
+
+PLAN SEMANAL:
+${L(week)}
+
+ESTRATEGIA PARA SUPERAR TU FRENO PRINCIPAL:
+   ${FRENO[info.freno]}
+
+ÁREAS DE ESTUDIO RECOMENDADAS PARA TU PERFIL:
+${L(p.study)}
+
+HERRAMIENTAS ESENCIALES RECOMENDADAS:
+${L(p.tools)}
+
+================================================================================
+EPÍLOGO: CAMINA CON PROPÓSITO
+================================================================================
+
+Hacer marketing no es un fin en sí mismo; es un vehículo para amplificar el
+llamado que Dios ha puesto en tus manos. Cuando trabajas con excelencia, honestidad
+y amor por el prójimo, tu negocio o proyecto no solo prospera económicamente:
+se convierte en un faro de luz e integridad en medio de la sociedad.
+
+"¡Cuán hermosos son los pies de los que anuncian buenas nuevas,
+de los que traen gratas nuevas de la paz!" — Romanos 10:15
+
+Con aprecio y bendición,
+Manuel Quijada
+Director Creativo & CEO · SUMAS PRO AGENCY
+Comunidad en Instagram: @sumaspro
+================================================================================`;
 }
 
+/* ---------- Formulario de Leads ---------- */
 $("gateForm").onsubmit = async (e) => {
   e.preventDefault();
   const nombre = $("lead_nombre").value.trim();
@@ -760,7 +1185,7 @@ $("gateForm").onsubmit = async (e) => {
   $("gateError").hidden = true;
   const btn = $("gateBtn");
   btn.disabled = true;
-  btn.textContent = "Desbloqueando plan…";
+  btn.textContent = "Generando tu E-Book personalizado…";
 
   const { key, info } = score();
   userLead = {
@@ -796,11 +1221,14 @@ $("back").onclick = () => { if (current > 0) { current--; renderQuestion(); } };
 $("restart").onclick = () => { answers = []; current = 0; show("intro"); };
 $("goVote").onclick = () => setTab("votar");
 $("print").onclick = () => window.print();
+
 $("download").onclick = () => {
-  const blob = new Blob([planTexto()], { type:"text/plain;charset=utf-8" });
+  const txt = planTexto();
+  const blob = new Blob([txt], { type:"text/markdown;charset=utf-8" });
   const a = document.createElement("a");
+  const cleanName = (plan && plan.firstName ? plan.firstName.toLowerCase() : "mi-plan").replace(/[^a-z0-9_-]/g,"");
   a.href = URL.createObjectURL(blob);
-  a.download = "mi-plan-marketing-con-proposito.txt";
+  a.download = `Ebook-Marketing-Con-Proposito-${cleanName}.txt`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
@@ -850,7 +1278,6 @@ if (socket) {
 } else {
   $("status").textContent = "Modo sin conexión en vivo";
 }
-// Respaldo ligero: refresca cada 5 s si el socket no está conectado
 setInterval(() => {
   if (socket && socket.connected) return;
   fetch("/api/resultados").then(r => r.json()).then(pintar).catch(() => {});

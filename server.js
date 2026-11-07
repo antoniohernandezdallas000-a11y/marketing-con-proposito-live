@@ -226,11 +226,6 @@ function rateLimit({ max, windowMs, message }) {
 }
 
 const pub = path.join(__dirname, "public");
-app.get("/", (req, res) => res.sendFile(path.join(pub, "app.html")));
-app.get("/votar", (req, res) => res.redirect("/#votar"));
-app.get("/presentacion", (req, res) => res.sendFile(path.join(pub, "presentacion.html")));
-app.get("/resultados", (req, res) => res.sendFile(path.join(pub, "resultados.html")));
-app.use(express.static(pub, { extensions: ["html"] }));
 
 function getLocalIp() {
   const nets = os.networkInterfaces();
@@ -250,7 +245,7 @@ function getLocalIp() {
 }
 
 function urlPublica(req) {
-  if (PUBLIC_URL) return PUBLIC_URL;
+  if (PUBLIC_URL) return PUBLIC_URL.replace(/\/+$/, "");
   const host = req.get("host") || "";
   const hostname = host.split(":")[0];
   const port = host.split(":")[1] || PORT;
@@ -258,26 +253,45 @@ function urlPublica(req) {
     const localIp = getLocalIp();
     return `${req.protocol}://${localIp}${port ? ":" + port : ""}`;
   }
-  return `${req.protocol}://${host}`;
+  const proto = req.get("x-forwarded-proto") || req.protocol || "http";
+  const isHttps = proto === "https" || host.includes("onrender.com") || req.secure;
+  return `${isHttps ? "https" : "http"}://${host}`;
 }
 
 // QR dinámico: apunta a la app de asistentes (o a /votar con ?destino=votar)
+// IMPORTANTE: Definido ANTES de express.static para que siempre se genere al vuelo con el host actual
 app.get("/qr.svg", async (req, res) => {
   const destino = req.query.destino === "votar" ? "/votar" : "/";
   try {
-    const svg = await QRCode.toString(urlPublica(req) + destino, {
+    const targetUrl = urlPublica(req) + destino;
+    const svg = await QRCode.toString(targetUrl, {
       type: "svg",
-      margin: 1,
+      margin: 2,
       errorCorrectionLevel: "M",
       color: { dark: "#15102E", light: "#FFFDF9" },
     });
-    res.type("image/svg+xml").set("Cache-Control", "no-cache").send(svg);
+    res
+      .type("image/svg+xml")
+      .set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate")
+      .set("Pragma", "no-cache")
+      .set("Expires", "0")
+      .send(svg);
   } catch (e) {
     res.status(500).send("No se pudo generar el QR");
   }
 });
 
-app.get("/api/info", (req, res) => res.json({ url: urlPublica(req) }));
+app.get("/api/info", (req, res) => {
+  res
+    .set("Cache-Control", "no-store, no-cache, must-revalidate")
+    .json({ url: urlPublica(req) });
+});
+
+app.get("/", (req, res) => res.sendFile(path.join(pub, "app.html")));
+app.get("/votar", (req, res) => res.redirect("/#votar"));
+app.get("/presentacion", (req, res) => res.sendFile(path.join(pub, "presentacion.html")));
+app.get("/resultados", (req, res) => res.sendFile(path.join(pub, "resultados.html")));
+app.use(express.static(pub, { extensions: ["html"] }));
 app.get("/api/resultados", (req, res) => res.json(resultados()));
 
 // Respaldo por HTTP (por si un teléfono no logra abrir el WebSocket)

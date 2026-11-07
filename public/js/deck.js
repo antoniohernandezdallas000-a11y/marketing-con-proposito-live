@@ -129,6 +129,21 @@
   })();
 
   fit();
+  /* ---------- QR dinámico (diapositiva 5) ---------- */
+  const qrImg = document.getElementById("qr-proposito-img") || document.querySelector("#qr-proposito img");
+  const qrUrlText = document.getElementById("qr-proposito-url");
+  if (qrImg) {
+    qrImg.src = "/qr.svg?t=" + Date.now();
+  }
+  fetch("/api/info")
+    .then((r) => r.json())
+    .then(({ url }) => {
+      if (qrUrlText && url) {
+        qrUrlText.textContent = url.replace(/^https?:\/\//, "");
+      }
+    })
+    .catch(() => {});
+
   const start = parseInt((location.hash || "").slice(1), 10);
   go(isNaN(start) ? 0 : start - 1);
   // Conectar desde el inicio para que la diapositiva 24 ya tenga datos al llegar
